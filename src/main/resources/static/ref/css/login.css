@@ -62,8 +62,14 @@ h1 {
 }
 h2 {
     color:#ecf0f1;
+
+}
+.h4_login {
+    display: inline;
+    color: white;
+  top: 15px;
 }
 #checkbox_passage{
-    color: #2ecc71;
-
+    width: 10px;
+    height: 10px;
 }
