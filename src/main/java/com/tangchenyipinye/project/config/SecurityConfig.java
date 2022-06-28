@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/user/login") //登录访问路径
                 .defaultSuccessUrl("/api/hello").permitAll()  //登录成功之后，跳转路径
                 .and().authorizeRequests()
-                .antMatchers("/user/login").permitAll() //设置哪些路径可以直接访问，不需要认证
+                .antMatchers("/user/login", "/static/ref/*","/ref/*/*").permitAll() //设置哪些路径可以直接访问，不需要认证
                 //当前登录用户，只有具有admins权限才可以访问
                 //   .antMatchers("/test/index").hasAuthority("admins")
                 //当前登录用户，有czzf和admins权限都可以访问
