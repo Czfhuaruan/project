@@ -45,6 +45,15 @@
             <!--            生产-->
             <version>5.1.8</version>
         </dependency>
+        <!--      热部署用的        -->
+        <!--    第一步  Settings→Build→Compiler中将Build project automatically勾选上      -->
+        <!--    第二步  Settings→最下面的Advance Setting → 勾选allow auto-make to start even if........   -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional> <!-- 可选 -->
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

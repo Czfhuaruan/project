@@ -1,19 +1,19 @@
 @charset "UTF-8";
 /*先定义页面主体，标准的消内外边距*/
 body {
-    margin:0;
-    padding:0;
+
     font-family:sans-serif;
     background: url("http://localhost:8888/ref/css/image/background-Login.png");
     opacity: 0.85;
+
 }
 /*定义表单整体样式*/
 .box {
-    width:300px;
+    width:450px;
     padding:40px;
     top:50%;
     left:50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-25%,-25%);
     position:absolute;
     background-color: #34495e;
     text-align: center;
@@ -24,26 +24,24 @@ body {
     display: block;
     text-align: center;
     border:0;
-    margin:20px auto;
+    margin:10px auto;
     border:2px solid #2980b9;
     padding:14px 10px;
     width:200px;
     outline:none;
     color:white;
     border-radius: 24px;
-    transition: 0.5s;
+    transition: 0.4s;
 }
 /*定义当光标放在两个输入框时的样式，这里我只是简单的变宽和蓝色变亮*/
 .box input[type="text"]:focus,.box input[type="password"]:focus {
     width:280px;
-    border-color:#3498db;
+    border-color:white;
 }
 /*定义提交按钮的样式*/
-.box input[type="submit"] {
+.box input[type="submit"] ,.box input[type="button"]{
     color:white;
     background: none;
-    display: block;
-    text-align: center;
     border:0;
     margin:20px auto;
     border:2px solid #2ecc71;
@@ -55,12 +53,12 @@ body {
     transition: 0.25s;
 }
 /*定义提交按钮的选中样式，这里我简单把背景调成对应绿色，就已经很好看了*/
-.box input[type="submit"]:hover{
+.box input[type="submit"]:hover ,.box input[type="button"]:hover{
     background-color: #2ecc71;
 }
 h1 {
     color:#ecf0f1;
 }
-
-
-
+h2 {
+    color:#ecf0f1;
+}
