@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="http://localhost:8888/ref/css/login.css" rel="stylesheet">
 </head>
-<body>
-<form action="/user/login" method="post">
-    用户名：<input type="text" name="username"><br>
-    密码:<input type="text" name="password"><br>
-    <input type="checkbox" name="remember-me">自动登录<br>
+<body >
+
+<form class="box" action="/user/login" method="post" >
+    <h1>Login</h1>
+   <input type="text" name="username" placeholder="账户名称"><br>
+    <input type="password" name="password" placeholder="密码"><br>
+    <input type="checkbox" name="remember-me">登录<br>
     <input type="submit" value="login">
 </form>
 </body>
