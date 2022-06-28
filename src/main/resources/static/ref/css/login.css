@@ -1,7 +1,8 @@
 @charset "UTF-8";
 /*先定义页面主体，标准的消内外边距*/
 body {
-
+    margin:0;
+    padding:0;
     font-family:sans-serif;
     background: url("http://localhost:8888/ref/css/image/background-Login.png");
     opacity: 0.85;
@@ -10,13 +11,13 @@ body {
 /*定义表单整体样式*/
 .box {
     width:450px;
-    padding:40px;
-    top:50%;
-    left:50%;
+    left:43%;
+    top:35%;
     transform: translate(-25%,-25%);
     position:absolute;
-    background-color: #34495e;
+    background-color: #2a4564;
     text-align: center;
+    border-radius: 24px;
 }
 /*定义该表单中两个文本输入框的样式，可以根据喜好调整transition的动画时间*/
 .box input[type="text"],.box input[type="password"] {
@@ -27,7 +28,7 @@ body {
     margin:10px auto;
     border:2px solid #2980b9;
     padding:14px 10px;
-    width:200px;
+    width:230px;
     outline:none;
     color:white;
     border-radius: 24px;
@@ -43,11 +44,11 @@ body {
     color:white;
     background: none;
     border:0;
-    margin:20px auto;
+    margin:20px 12px;
     border:2px solid #2ecc71;
     padding:14px 10px;
     cursor:pointer;
-    width:180px;
+    width:150px;
     outline:none;
     border-radius: 24px;
     transition: 0.25s;
@@ -61,4 +62,8 @@ h1 {
 }
 h2 {
     color:#ecf0f1;
+}
+#checkbox_passage{
+    color: #2ecc71;
+
 }
