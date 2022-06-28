@@ -8,4 +8,7 @@ import lombok.Data;
 public class Users extends BaseEntity{
     private String username;
     private String password;
+    private String nickname;
+    private String mobile;
+    private String address;
 }
