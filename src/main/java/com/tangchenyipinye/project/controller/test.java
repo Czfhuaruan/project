@@ -13,13 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 @Api(tags = "商品管理")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api")
 public class test {
     @Autowired
     ProductService productService;
@@ -63,19 +65,7 @@ public class test {
     }
 
 
-    //    管理员登录接口
-    @Secured({"ROLE_admins"})
-    @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
-    public R adminRegister(@RequestParam("username") String username,
-                           @RequestParam("password") String password) {
-        Admin admin = adminService.getUserByNameAndPass(username, password);
-//        解密
-        String s = MD5until.string2MD5(password);
-        if(!s.equals(admin.getAdmin_password())){
-            return R.ok().data("msg",s);
-        }
-        return R.ok().data("msg","登录成功");
-    }
+
 
     //    增加管理员接口,管理员用户名唯一
     @Secured({"ROLE_admins"})
@@ -122,8 +112,6 @@ public class test {
         }
         return R.ok().data("msg", "添加成功");
     }
-
-
 
 
 

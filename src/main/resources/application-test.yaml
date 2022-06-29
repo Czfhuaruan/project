@@ -7,6 +7,11 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  thymeleaf:
+    cache: false
+    suffix: .html
+    encoding: utf-8
+    content-type: text/html
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://172.18.54.18:3306/addb?useUnicode=true&serverTimezone=GMT%2B8
@@ -21,3 +26,10 @@ mybatis-plus:
   mapper-locations: classpath:com/tangchenyipinye/project/mapper/xml/*.xml
 server:
   port: 8888
+
+
+#  thymeleaf:
+#    cache: false
+#    suffix: .html
+#    encoding: UTF-8
+#    content-type: text/html
