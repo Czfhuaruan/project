@@ -1,5 +1,6 @@
 package com.tangchenyipinye.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tangchenyipinye.project.mapper.AdminMapper;
 import com.tangchenyipinye.project.pojo.Admin;
@@ -33,5 +34,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         map.put("admin_name",admin_name);
         List list = adminMapper.selectByMap(map);
         return list;
+    }
+
+    @Override
+    public Admin getUserByNameAndPass(String admin_name, String admin_password) {
+        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("admin_name",admin_name);
+        Admin admin = adminMapper.selectOne(queryWrapper);
+        return admin;
     }
 }
