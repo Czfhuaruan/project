@@ -30,10 +30,17 @@ body {
     padding:14px 10px;
     width:230px;
     outline:none;
-    color:white;
+    color: #29b957;
+    font-size: 16px;
     border-radius: 24px;
     transition: 0.4s;
 }
+.box input[type=text]::placeholder,input[type=password]::placeholder {
+    color: white;
+    font-size: 16px;
+    opacity: 0.6;
+}
+
 /*定义当光标放在两个输入框时的样式，这里我只是简单的变宽和蓝色变亮*/
 .box input[type="text"]:focus,.box input[type="password"]:focus {
     width:280px;
