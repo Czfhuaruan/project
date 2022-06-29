@@ -1,16 +1,20 @@
 package com.tangchenyipinye.project.controller;
 
 import com.tangchenyipinye.project.pojo.Admin;
+import com.tangchenyipinye.project.pojo.Product;
 import com.tangchenyipinye.project.service.AdminService;
+import com.tangchenyipinye.project.service.ProductService;
 import com.tangchenyipinye.project.until.MD5until;
 import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Api(tags = "templates测试")
 @Controller
@@ -18,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 public class templatesTest {
     @Autowired
     AdminService adminService;
+    @Autowired
+    ProductService productService;
 
     @Secured({"ROLE_admins"})
     @RequestMapping("/logout")
@@ -81,6 +87,14 @@ public class templatesTest {
     }
 
 
+    //获取商品信息传到前台
+    @Secured({"ROLE_admins"})
+    @GetMapping("/allProducts")
+    public String allProducts(Model model) {
+        List<Product> productsList = productService.list();
+        model.addAttribute("s",productsList);
+        return "admin-goods-control";
+    }
 
     /*
     商品信息查询，

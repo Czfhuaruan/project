@@ -11,6 +11,7 @@ import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,8 +66,6 @@ public class test {
     }
 
 
-
-
     //    增加管理员接口,管理员用户名唯一
     @Secured({"ROLE_admins"})
     @RequestMapping(value = "/user/addAdmin", method = RequestMethod.POST)
@@ -78,7 +77,7 @@ public class test {
         if (list.size() >= 1) {
             return R.ok().data("msg", "管理员已存在");
         } else {
-            Admin admin = new Admin(admin_name,  admin_nickname,MD5until.string2MD5(admin_password), admin_image);
+            Admin admin = new Admin(admin_name, admin_nickname, MD5until.string2MD5(admin_password), admin_image);
             int i = adminService.addAdmin(admin);
             if (i != 1) {
                 R.ok().error();
@@ -113,8 +112,20 @@ public class test {
         return R.ok().data("msg", "添加成功");
     }
 
-
-
+    //    商品添加接口
+    @Secured({"ROLE_admins"})
+    @GetMapping("/store/addProduct")
+    public R addProduct(@RequestParam("title") String title,
+                        @RequestParam("price") Integer price,
+                        @RequestParam("category") String category,
+                        @RequestParam("content") String content) {
+        Product product = new Product(title,price,category,content);
+        int i = productService.addProduct(product);
+        if(i!=1){
+            return R.ok().error();
+        }
+        return R.ok().data("msg","添加成功");
+    }
 
 //        List<Users> usersList = usersService.list();
         /*
