@@ -1,0 +1,45 @@
+@charset "UTF-8";
+table.tftable,
+table.table-count {
+    font-size: 12px;
+    color: #333333;
+    width: 100%;
+    border-width: 1px;
+    border-collapse: collapse;
+}
+
+table.table-count th,
+table.table-count td {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e4e4e4;
+    text-align: center;
+}
+
+table.tftable th,
+table.tftable td {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #010115;
+    text-align: left;
+    text-align: center;
+}
+
+.tftable{
+    margin-left: 1%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+table.tftable tr:hover {
+    background: #7ea9bd;
+}
+.tftable>thead>tr:hover{
+    background: white;
+}
