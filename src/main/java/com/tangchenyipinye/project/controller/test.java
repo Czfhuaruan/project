@@ -1,7 +1,9 @@
 package com.tangchenyipinye.project.controller;
 
+import com.tangchenyipinye.project.pojo.Admin;
 import com.tangchenyipinye.project.pojo.Product;
 import com.tangchenyipinye.project.pojo.Users;
+import com.tangchenyipinye.project.service.AdminService;
 import com.tangchenyipinye.project.service.ProductService;
 import com.tangchenyipinye.project.service.UsersService;
 import com.tangchenyipinye.project.until.MD5until;
@@ -22,51 +24,109 @@ public class test {
     ProductService productService;
     @Autowired
     UsersService usersService;
+    @Autowired
+    AdminService adminService;
 
     @Secured({"ROLE_admins"})
     @GetMapping("/hello")
-    public R hello(){
-        List<Product> productsList=productService.list();
-        return R.ok().data("productsList",productsList);
+    public R hello() {
+        List<Product> productsList = productService.list();
+        return R.ok().data("productsList", productsList);
     }
 
     @Secured({"ROLE_admins"})
     @GetMapping("/HHHH")
-    public String HHH(){
+    public String HHH() {
         return "HHHH";
     }
 
     @Secured({"ROLE_ts"})
     @GetMapping("/DDDD")
-    public String DDDD(){
+    public String DDDD() {
         return "DDDD";
     }
 
     @Secured({"ROLE_admins"})
     @GetMapping("/logout")
-    public String logout(){
+    public String logout() {
         return "success";
     }
 
 
     @Secured({"ROLE_admins"})
     @GetMapping("/register")
-    public R register(){
+    public R register() {
         List<Users> usersList = usersService.list();
         System.out.println(usersList);
-        return R.ok().data("usersList",usersList);
+        return R.ok().data("usersList", usersList);
     }
 
-    @Secured({"ROLE_admins"})
-    @RequestMapping(value = "/user/register",method = RequestMethod.POST)
-    public R register2(@RequestParam("username") String username,@RequestParam String password,@RequestParam String password1,@RequestParam String nickname,@RequestParam String mobile,@RequestParam String address){
 
-//        mybatis-plus下的通过map方式进行条件查询
-//        判断用户名是否已存在
+    //    管理员登录接口
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/user/adminRegister", method = RequestMethod.GET)
+    public R adminRegister(@RequestParam("username") String username,
+                           @RequestParam("password") String password) {
+
+        return null;
+    }
+
+    //    增加管理员接口,管理员用户名唯一
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/user/addAdmin", method = RequestMethod.POST)
+    public R addAdmin(@RequestParam("username") String admin_name,
+                      @RequestParam("nickname") String admin_nickname,
+                      @RequestParam("password") String admin_password,
+                      @RequestParam("imgsrc") String admin_image) {
+        List list = adminService.selectAdminnameByMap(admin_name);
+        if (list.size() >= 1) {
+            return R.ok().data("msg", "管理员已存在");
+        } else {
+            Admin admin = new Admin(admin_name,  admin_nickname,MD5until.string2MD5(admin_password), admin_image);
+            int i = adminService.addAdmin(admin);
+            if (i != 1) {
+                R.ok().error();
+            }
+        }
+        return R.ok().data("msg", "插入成功");
+    }
+
+    //    用户注册接口，用户名唯一
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
+    public R register2(@RequestParam("username") String username,
+                       @RequestParam("password") String password,
+                       @RequestParam String password1,
+                       @RequestParam("nickname") String nickname,
+                       @RequestParam("mobile") String mobile,
+                       @RequestParam("address") String address,
+                       @RequestParam("e-mail") String email) {
+        //        mybatis-plus下的通过map方式进行条件查询
+        //        判断用户名是否已存在
+        List list = usersService.selectByMap(username);
+        if (list.size() >= 1) {
+            return R.ok().data("msg", "用户已存在");
+        } else {
+//            Users users = new Users(username, MD5until.string2MD5(password), nickname, mobile, address);
+            Users users = new Users(username, MD5until.string2MD5(password), nickname, mobile, address, email);
+            int i = usersService.insert(users);
+            if (i != 1) {
+                return R.error();
+            }
+        }
+        return R.ok().data("msg", "添加成功");
+    }
+
+
+
+
+
+
 //        List<Users> usersList = usersService.list();
+        /*
         String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9])|(16[6]))\\d{8}$";
         Pattern p = Pattern.compile(regex);
-        List list = usersService.selectByMap(username);
+
         if(list.size()>=1){
             return R.ok().data("msg","用户已存在");
         }else if(!password.equals(password1)){
@@ -81,11 +141,11 @@ public class test {
             users.setNickname(nickname);
             users.setMobile(mobile);
             users.setAddress(address);
+            users.setEmail(email);
             int i = usersService.insert(users);
             if (i != 1) {
                 return R.error();
             }
-        }
-        return R.ok().data("msg","添加成功");
-    }
+        }*/
+
 }
