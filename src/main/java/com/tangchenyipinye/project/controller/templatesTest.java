@@ -84,7 +84,9 @@ public class templatesTest {
 
     @Secured({"ROLE_admins"})
     @GetMapping("/tangchenyipinye")
-    public String tangchenyipinye() {
+    public String tangchenyipinye(HttpServletRequest request){
+        List<Product> productsList = productService.list();
+        request.setAttribute("productsList",productsList);
         return "tangchenyipinye";
     }
 
