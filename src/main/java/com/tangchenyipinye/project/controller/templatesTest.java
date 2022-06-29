@@ -34,5 +34,28 @@ public class templatesTest {
         return "admin-category-control";
     }
 
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminadmin")
+    public String admin(){
+        return "admin-admin-control";
+    }
+
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminorder")
+    public String adminorder(){
+        return "admin-order-control";
+    }
+
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/admingoods")
+    public String admingoods(){
+        return "admin-goods-control";
+    }
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminuser")
+    public String adminuser(){
+        return "admin-user-control";
+    }
+
 }
 
