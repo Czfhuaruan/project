@@ -57,5 +57,10 @@ public class templatesTest {
         return "admin-user-control";
     }
 
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye")
+    public String tangchenyipinye(){
+        return "tangchenyipinye";
+    }
 }
 

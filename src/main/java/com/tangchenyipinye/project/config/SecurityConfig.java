@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()  //自定义登录表单
                 .loginPage("/login.html") //登录页面设置
                 .loginProcessingUrl("/user/login") //登录访问路径
-                .defaultSuccessUrl("/api/hello").permitAll()  //登录成功之后，跳转路径
+                .defaultSuccessUrl("/temapi/tangchenyipinye").permitAll()  //登录成功之后，跳转路径
                 .and().authorizeRequests()
                 .antMatchers("/user/login", "/static/ref/*","/ref/*/*","/ref/*/*/*","/*","/api/user/register","/api/admin/login").permitAll() //设置哪些路径可以直接访问，不需要认证
                 //当前登录用户，只有具有admins权限才可以访问
