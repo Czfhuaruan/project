@@ -16,4 +16,11 @@ public class templatesTest {
     public String logout(){
         return "success";
     }
+
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminpage")
+    public String adminpagetest(){
+        return "admin-homepage";
+    }
 }
+
