@@ -1,5 +1,6 @@
 package com.tangchenyipinye.project.controller;
 
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.tangchenyipinye.project.pojo.Admin;
 import com.tangchenyipinye.project.pojo.Product;
 import com.tangchenyipinye.project.service.AdminService;
@@ -8,10 +9,11 @@ import com.tangchenyipinye.project.until.MD5until;
 import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -82,19 +84,14 @@ public class templatesTest {
 
     @Secured({"ROLE_admins"})
     @GetMapping("/tangchenyipinye")
-    public String tangchenyipinye(){
+    public String tangchenyipinye(HttpServletRequest request){
+        List<Product> productsList = productService.list();
+        request.setAttribute("productsList",productsList);
         return "tangchenyipinye";
     }
 
 
-    //获取商品信息传到前台
-    @Secured({"ROLE_admins"})
-    @GetMapping("/allProducts")
-    public String allProducts(Model model) {
-        List<Product> productsList = productService.list();
-        model.addAttribute("s",productsList);
-        return "admin-goods-control";
-    }
+
 
     /*
     商品信息查询，

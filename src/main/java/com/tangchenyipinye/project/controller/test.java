@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@CrossOrigin(allowCredentials = "true") //开放跨域访问
 @Api(tags = "商品管理")
 @RestController
 @RequestMapping("api")

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN"  xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"   xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +19,7 @@
         .czf-thumbnail img{
             width: auto;
         }
+
         .czf-threC{
             margin-top: 50px;
         }
@@ -26,6 +27,22 @@
             border: 2px solid deeppink;
         }
     </style>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+        // $(document).ready(function(){
+        //     $.ajax({
+        //         url:'/api/hello',
+        //         data:{},
+        //         dataType:"json",
+        //         success:function(data,st){
+        //             console.log(data.message);
+        //             if(data.message == "成功"){
+        //                     data.productlist
+        //             }
+        //         }
+        //     })
+        // })
+    </script>
 </head>
 <body>
 <!-- 导航 -->
@@ -107,45 +124,47 @@
     </a>
 </div>
 <!--三列布局-->
-<div class="czf-threC">
+<div class="container czf-threC">
     <div class="row">
-        <div class="col-md-4 czf-thumbnail text-center">
+            <th:block th:each="productsList : ${productsList}">
+        <div class="col-md-4 czf-thumbnail">
 
-            <img src="img/react.png" >
-            <div class="caption">
-                <h3>react</h3>
-                <p>111</p>
-                <p> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            <img th:src="${productsList.image}" >
+            <div class="caption" th:id="${productsList.id}">
+                <h3 th:text="${productsList.title}"></h3>
+<!--                <h4 th:text="${productsList.category}"></h4>-->
+<!--                <p th:text="${productlist.price}"></p>-->
+                <p th:text="${productsList.content}"></p>
+                <p> <a href="#" class="btn btn-default" role="button">购买</a></p>
             </div>
-
         </div>
-        <div class="col-md-4 czf-thumbnail text-center">
+            </th:block>
 
-            <img src="img/Bootstrap.png" >
-            <div class="caption">
-                <h3>Bookstrap</h3>
-                <p>222</p>
-                <p>  <a href="#" class="btn btn-default" role="button">Button</a></p>
-            </div>
 
-        </div>
-        <div class="col-md-4 czf-thumbnail text-center">
+<!--        <div class="col-md-4 czf-thumbnail text-center">-->
 
-            <img src="img/typescript.png" >
-            <div class="caption">
-                <h3>typescript</h3>
-                <p>333</p>
-                <p> <a href="#" class="btn btn-default" role="button">Button</a></p>
-            </div>
+<!--            <img src="img/Bootstrap.png" >-->
+<!--            <div class="caption">-->
+<!--                <h3>Bookstrap</h3>-->
+<!--                <p>222</p>-->
+<!--                <p>  <a href="#" class="btn btn-default" role="button">Button</a></p>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
+<!--        <div class="col-md-4 czf-thumbnail text-center">-->
+
+<!--            <img src="img/typescript.png" >-->
+<!--            <div class="caption">-->
+<!--                <h3>typescript</h3>-->
+<!--                <p>333</p>-->
+<!--                <p> <a href="#" class="btn btn-default" role="button">Button</a></p>-->
+<!--            </div>-->
+
+<!--        </div>-->
     </div>
 </div>
-
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
 </body>
 </html>
