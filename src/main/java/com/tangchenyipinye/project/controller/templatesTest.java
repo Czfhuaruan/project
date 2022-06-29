@@ -81,6 +81,12 @@ public class templatesTest {
     public String adminuser() {
         return "admin-user-control";
     }
+    //回到首页
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminpage")
+    public String adminpage() {
+        return "admin-homepage";
+    }
 
     @Secured({"ROLE_admins"})
     @GetMapping("/tangchenyipinye")
