@@ -33,6 +33,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         Map map = new HashMap();
         map.put("username",username);
         List map1 = usersMapper.selectByMap(map);
+
         return map1;
     }
 }
