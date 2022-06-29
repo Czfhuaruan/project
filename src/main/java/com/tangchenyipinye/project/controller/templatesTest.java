@@ -22,5 +22,17 @@ public class templatesTest {
     public String adminpagetest(){
         return "admin-homepage";
     }
+
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/admindb")
+    public String admindbcontrol(){
+        return "admin-db-control";
+    }
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/admincategory")
+    public String admincategory(){
+        return "admin-category-control";
+    }
+
 }
 
