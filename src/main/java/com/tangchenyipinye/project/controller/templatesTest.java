@@ -41,9 +41,9 @@ public class templatesTest {
     }
 
     @Secured({"ROLE_admins"})
-    @RequestMapping("/adminorder")
-    public String adminorder(){
-        return "admin-order-control";
+    @RequestMapping("/adminorders")
+    public String adminorders(){
+        return "admin-orders-control";
     }
 
     @Secured({"ROLE_admins"})
