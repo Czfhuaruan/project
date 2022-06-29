@@ -120,7 +120,7 @@ public class test {
                         @RequestParam("price") Integer price,
                         @RequestParam("category") String category,
                         @RequestParam("content") String content) {
-        Product product = new Product(title,price,category,content);
+        Product product = new Product(title,price,category,"http://localhost:8888/ref/img/c.jpg",10010,content);
         int i = productService.addProduct(product);
         if(i!=1){
             return R.ok().error();
