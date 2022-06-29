@@ -12,7 +12,7 @@ public class Product extends BaseEntity{
     private String title; //商品名称
     private Integer price; //价格（分）
     private String category;//类别
-    private Integer review_count;//评论数量
+//    private Integer review_count;//评论数量
     private Integer product_store_id;//商家id
     private String content;//内容
 
