@@ -93,7 +93,7 @@
 
     </ul>
     <div class="main" style="height:1000px;width:70px;overflow:auto;background:#EEEEEE;">
-        <table class="table_two" style="height: 200px">
+        <table id="aaa" class="table_two" style="height: 200px">
             <tr>
                 <td>商品Id</td>
                 <td>商品名称</td>
@@ -104,16 +104,16 @@
                 <td>操作</td>
             </tr>
 
-            <tr th:each="i:${s}">
-                <td th:text="${i.id}"></td>
+            <tr th:each="i:${productsList}">
+                <td id="productId" th:text="${i.id}"></td>
                 <td th:text="${i.title}"></td>
                 <td th:text="${i.price}"></td>
                 <td th:text="${i.createTime}"></td>
                 <td th:text="${i.category}"></td>
                 <td th:text="${i.content}" style="width: 100px"></td>
                 <td>
-                    <button>修改</button>
-                    <button>删除</button>
+                    <a th:href="@{/temapi/deleteProductById(id=${i.id})}">删除</a>
+                    <a th:href="@{/temapi/productToUpdate(id=${i.id})}">修改</a>
                 </td>
             </tr>
         </table>
