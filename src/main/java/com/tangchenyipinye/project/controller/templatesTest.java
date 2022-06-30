@@ -39,8 +39,6 @@ public class templatesTest {
     @Autowired
     UsersService usersService;
 
-    @Autowired
-    UsersService usersService;
     @Secured({"ROLE_admins"})
     @RequestMapping("/logout")
     public String logout() {
