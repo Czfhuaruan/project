@@ -170,5 +170,18 @@ public class templatesTest {
         return "redirect:/temapi/allProducts";
     }
 
+    /*
+        通过商品名称模糊查询商品信息
+        将找到的结果返回到所有商品页面
+        重定向：
+    */
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/selectProductByName",method = RequestMethod.POST)
+    public String selectProductByName(Model model,@RequestParam("title") String title){
+        List list = productService.selectProductByName(title);
+        model.addAttribute("productsList", list);
+        return "admin-goods-control";
+    }
+
 }
 
