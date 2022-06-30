@@ -6,6 +6,9 @@ import com.tangchenyipinye.project.pojo.Product;
 import java.util.List;
 
 public interface ProductService extends IService<Product> {
+    /*
+        查询所有商品
+    */
     public int addProduct(Product product);
 
     public List<Product> selectBycategory(String name);
