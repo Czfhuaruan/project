@@ -48,7 +48,7 @@ public class templatesTest {
         if (!s.equals(admin.getAdmin_password())) {
             return "success";
         }
-        return "admin-homepage";
+        return "redirect:../allProducts";
     }
 
     @Secured({"ROLE_admins"})
@@ -130,7 +130,7 @@ public class templatesTest {
     @RequestMapping("/deleteProductById")
     public String deleteProductById(int id) {
         productService.deleteProductById(id);
-        return "redirect:/temapi/allProducts";
+        return "redirect:../temapi/allProducts";
     }
 
     /*
