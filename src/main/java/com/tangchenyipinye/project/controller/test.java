@@ -3,8 +3,10 @@ package com.tangchenyipinye.project.controller;
 import com.tangchenyipinye.project.pojo.Admin;
 import com.tangchenyipinye.project.pojo.Product;
 import com.tangchenyipinye.project.pojo.Users;
+import com.tangchenyipinye.project.pojo.shopcar;
 import com.tangchenyipinye.project.service.AdminService;
 import com.tangchenyipinye.project.service.ProductService;
+import com.tangchenyipinye.project.service.ShopCarService;
 import com.tangchenyipinye.project.service.UsersService;
 import com.tangchenyipinye.project.until.MD5until;
 import com.tangchenyipinye.project.until.R;
@@ -31,6 +33,8 @@ public class test {
     UsersService usersService;
     @Autowired
     AdminService adminService;
+    @Autowired
+    ShopCarService shopCarService;
 
     @Secured({"ROLE_admins"})
     @GetMapping("/hello")
@@ -66,6 +70,31 @@ public class test {
         return R.ok().data("usersList", usersList);
     }
 
+    //商品加入购物车
+    @Secured({"ROLE_admins"})
+    @GetMapping("/shopcar/addProduct")
+    public R shopcaraddProduct(@RequestParam("prod") int prod){
+        String username=usersService.getNameBySecurity();
+        int i=shopCarService.selectshopcarByprod(prod,username);
+        if(i == 0){
+            int n=shopCarService.addproducttoshopcar(prod);
+            System.out.println("shopcar是空的");
+        }else {
+            int m=shopCarService.updateproductshoper(prod);
+            System.out.println("shopcar不是空的");
+
+        }
+        System.out.println("HHHHHH");
+        return R.ok();
+    }
+    //查看个人购物车
+    @Secured({"ROLE_admins"})
+    @GetMapping("/shopcar/selectallproudct")
+    public R shopcarselectallproudct(HttpServletRequest request){
+        List<shopcar> usershopcars=shopCarService.selectshopcarByusername();
+        request.setAttribute("usershopcars",usershopcars);
+        return R.ok().data("usershopcars",usershopcars);
+    }
 
     //    增加管理员接口,管理员用户名唯一
     @Secured({"ROLE_admins"})
@@ -128,13 +157,7 @@ public class test {
         return R.ok().data("msg","添加成功");
     }
 
-    //商品加入购物车
-    @Secured({"ROLE_admins"})
-    @GetMapping("/shopcar/addProduct")
-    public R shopcaraddProduct(@RequestParam("prod") int prod){
 
-        return R.ok();
-    }
 //        List<Users> usersList = usersService.list();
         /*
         String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9])|(16[6]))\\d{8}$";
