@@ -11,6 +11,9 @@ import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +39,8 @@ public class templatesTest {
     @Autowired
     UsersService usersService;
 
+    @Autowired
+    UsersService usersService;
     @Secured({"ROLE_admins"})
     @RequestMapping("/logout")
     public String logout() {
@@ -129,6 +134,38 @@ public class templatesTest {
     public String tangchenyipinye(HttpServletRequest request){
         List<Product> productsList = productService.list();
         request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+       request.setAttribute("Username",username);
+        return "tangchenyipinye";
+    }
+
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye/shengcha")
+    public String tangchenyipinyeshengcha(HttpServletRequest request){
+        List<Product> productsList = productService.selectBycategory("生茶");
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
+        return "tangchenyipinye";
+    }
+
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye/shucha")
+    public String tangchenyipinyeshucha(HttpServletRequest request){
+        List<Product> productsList = productService.selectBycategory("熟茶");
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
+        return "tangchenyipinye";
+    }
+
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye/shengshu")
+    public String tangchenyipinyeshengshu(HttpServletRequest request){
+        List<Product> productsList = productService.selectBycategory("生熟套装");
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
         return "tangchenyipinye";
     }
 

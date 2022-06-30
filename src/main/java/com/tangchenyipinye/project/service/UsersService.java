@@ -28,6 +28,11 @@ public interface UsersService extends IService<Users> {
     public List selectByMap(String username);
 
     /*
+        czzf写的东西
+    */
+    public String getNameBySecurity();
+
+    /*
         通过id寻找用户商品
     */
     public Users selectUserById(Integer id);
