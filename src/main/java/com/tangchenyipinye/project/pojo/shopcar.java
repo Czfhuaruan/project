@@ -11,5 +11,5 @@ public class shopcar {
     private String pname;
     private Integer price;
     private int count;
-    private String total;
+    private Integer total;
 }
