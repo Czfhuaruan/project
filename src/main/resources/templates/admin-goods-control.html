@@ -8,34 +8,9 @@
     <!-- 引入字体图标 -->
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
     <link href="http://localhost:8888/ref/css/admin-homepage.css" rel="stylesheet">
+    <link href="http://localhost:8888/ref/css/table.css" rel="stylesheet">
+    <link href="http://localhost:8888/ref/css/admin-button.css" rel="stylesheet">
 
-    <style>
-        table
-        {
-            border-collapse: collapse;
-            margin: 0 auto;
-            text-align: center;
-        }
-        table td, table th
-        {
-            border: 1px solid #cad9ea;
-            color: #666;
-            height: 30px;
-        }
-        table thead th
-        {
-            background-color: #CCE8EB;
-            width: 100px;
-        }
-        table tr:nth-child(odd)
-        {
-            background: #fff;
-        }
-        table tr:nth-child(even)
-        {
-            background: #F5FAFA;
-        }
-    </style>
 </head>
 <body>
 <div class="navbar">
@@ -92,35 +67,40 @@
     </li>
 
     </ul>
-    <div class="main" style="height:1000px;width:70px;overflow:auto;background:#EEEEEE;">
-        <table id="aaa" class="table_two" style="height: 200px">
-            <tr>
-                <td>商品Id</td>
-                <td>商品名称</td>
-                <td>价格</td>
-                <td>创建时间</td>
-                <td>类别</td>
-                <td style="width: 300px"> 商品详情</td>
-                <td>操作</td>
-            </tr>
-
-            <tr th:each="i:${productsList}">
-                <td id="productId" th:text="${i.id}"></td>
-                <td th:text="${i.title}"></td>
-                <td th:text="${i.price}"></td>
-                <td th:text="${i.createTime}"></td>
-                <td th:text="${i.category}"></td>
-                <td th:text="${i.content}" style="width: 100px"></td>
-                <td>
-                    <a th:href="@{/temapi/deleteProductById(id=${i.id})}">删除</a>
-                    <a th:href="@{/temapi/productToUpdate(id=${i.id})}">修改</a>
-                </td>
-            </tr>
-        </table>
+    <div class="main ">
+        <div style="position: absolute;width: 98%;height:150px;top:0px; ">
+            <h1>context</h1>
+        </div>
+        <div class="table-container body"style="overflow: auto; position: absolute; width: 100%;height: 550px;top:150px;" >
+            <table class="tftable" style="height: 450px ;width: 98%">
+                <tr id="front">
+                    <th >商品Id</th>
+                    <th >商品名称</th>
+                    <th>价格</th>
+                    <th>创建时间</th>
+                    <th>类别</th>
+                    <th >商品详情</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="i:${productsList}">
+                    <td th:text="${i.id}" ></td>
+                    <td th:text="${i.title}"></td>
+                    <td th:text="${i.price}"></td>
+                    <td th:text="${i.createTime}"></td>
+                    <td th:text="${i.category}" ></td>
+                    <td th:text="${i.content}" ></td>
+                    <td>
+                        <button class="GN">修改</button>
+                        <button class="GN">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
 
 </script>
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
 </html>

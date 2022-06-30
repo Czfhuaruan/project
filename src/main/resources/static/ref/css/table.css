@@ -35,11 +35,14 @@ table.tftable td {
 .tftable{
     margin-left: 1%;
     margin-bottom: 10px;
-    margin-top: 10px;
 }
 table.tftable tr:hover {
     background: #7ea9bd;
 }
 .tftable>thead>tr:hover{
     background: white;
+}
+#front{
+    background: #5da6d7;
+    height: 30px;
 }
