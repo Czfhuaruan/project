@@ -47,3 +47,7 @@ table.tftable tr:hover {
     background: #5da6d7;
     height: 30px;
 }
+
+table.tftable td {
+    height: 20px;
+}
