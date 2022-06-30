@@ -59,13 +59,13 @@ public class test {
     }
 
 
-    /*@Secured({"ROLE_admins"})
+    @Secured({"ROLE_admins"})
     @GetMapping("/register")
     public R register() {
         List<Users> usersList = usersService.list();
         System.out.println(usersList);
         return R.ok().data("usersList", usersList);
-    }*/
+    }
 
 
     //    增加管理员接口,管理员用户名唯一
@@ -140,6 +140,14 @@ public class test {
     }
 
 
+
+    //商品加入购物车
+    @Secured({"ROLE_admins"})
+    @GetMapping("/shopcar/addProduct")
+    public R shopcaraddProduct(@RequestParam("prod") int prod){
+
+        return R.ok();
+    }
 //        List<Users> usersList = usersService.list();
         /*
         String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9])|(16[6]))\\d{8}$";
