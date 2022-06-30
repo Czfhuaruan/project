@@ -169,6 +169,22 @@ public class test {
     }
 
 
+    //    管理员登录接口
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+    public R adminLogin(@RequestParam("username") String username,
+                        @RequestParam("password") String password) {
+        System.out.println(username + "----" + password);
+//        解密
+        String s = MD5until.string2MD5(password);
+        Admin admin = adminService.getUserByAdminname(username);
+        if(!s.equals(admin.getAdmin_password())){
+            return R.error();
+        }else{
+            return R.ok();
+        }
+    }
+
 
     /*//商品加入购物车
     @Secured({"ROLE_admins"})

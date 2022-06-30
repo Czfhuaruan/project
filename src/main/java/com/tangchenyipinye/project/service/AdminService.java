@@ -16,5 +16,5 @@ public interface AdminService extends IService<Admin> {
 
     public List selectAdminnameByMap(String admin_name);
 
-    public Admin getUserByNameAndPass(String admin_name,String admin_password);
+    public Admin getUserByAdminname(String admin_name);
 }

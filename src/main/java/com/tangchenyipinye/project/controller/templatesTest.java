@@ -74,6 +74,21 @@ public class templatesTest {
             return "admin-db-control";
     }
 
+    //    进入商品添加页面
+    @Secured({"ROLE_admins"})
+    @RequestMapping("addProduct")
+    public String addProduct() {
+        return "addProduct";
+    }
+
+
+    //回到首页
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminpage")
+    public String adminpage() {
+        return "admin-homepage";
+    }
+
     @Secured({"ROLE_admins"})
     @RequestMapping("/admincategory")
     public String admincategory() {
@@ -106,32 +121,31 @@ public class templatesTest {
 
 
 
-//    进入商品添加页面
+    //    管理员登录接口
     @Secured({"ROLE_admins"})
-    @RequestMapping("addProduct")
-    public String addProduct() {
-        return "addProduct";
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+    public String adminLogin(@RequestParam("username") String username,
+                             @RequestParam("password") String password) {
+        System.out.println(username + "----" + password);
+//        解密
+        String s = MD5until.string2MD5(password);
+        Admin admin = adminService.getUserByAdminname(username);
+        if(!s.equals(admin.getAdmin_password())){
+            return "redirect:../../admin-login.html";
+        }else{
+            return "redirect:/temapi/adminpage";
+        }
     }
-
-
-    //回到首页
-    @Secured({"ROLE_admins"})
-    @RequestMapping("/adminpage")
-    public String adminpage() {
-        return "admin-homepage";
-    }
-
 
     /*
-                 *********商品信息管理模块*********
+     *********tangchenyipinye首页模块*********
 
-                 *********1.获取所有商品信息
-                 *********2.通过id删除商品信息
-                 *********3.获取修改商品id
-                 *********4.修改商品
-                 *********5.添加商品
-                 *********6.商品模糊查询
+     *********1.将商品信息发送到首页
+     *********2.
+     *********3.
+     *********4.
     */
+
     /*
         将商品信息发送到首页
     */
@@ -174,6 +188,18 @@ public class templatesTest {
         request.setAttribute("Username",username);
         return "tangchenyipinye";
     }
+
+    /*
+                 *********商品信息管理模块*********
+
+                 *********1.获取所有商品信息
+                 *********2.通过id删除商品信息
+                 *********3.获取修改商品id
+                 *********4.修改商品
+                 *********5.添加商品
+                 *********6.商品模糊查询
+    */
+
 
     /*
         获取商品信息发送到商品管理页面

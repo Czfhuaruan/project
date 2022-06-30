@@ -37,7 +37,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
-    public Admin getUserByNameAndPass(String admin_name, String admin_password) {
+    public Admin getUserByAdminname(String admin_name) {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("admin_name",admin_name);
         Admin admin = adminMapper.selectOne(queryWrapper);
