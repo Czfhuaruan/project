@@ -70,14 +70,42 @@
     </li>
 
     </ul>
-        <div class="main ">
-            <div style="position: absolute;width: 98%;height:150px;top:0px; ">
-                <h1>context</h1>
-            </div>
-            <div class="table-container body"style="overflow: auto; position: absolute; width: 100%;height: 550px;top:150px;" >
+    <div class="main ">
+        <div style="position: absolute;width: 98%;height:150px;top:0px; ">
+            <a href="http://localhost:8888/temapi/addProduct" >
+                <button class="GN"  style="margin-top: 100px;width: 100px;margin-left:45px;border-radius: 5px" >添加商品</button>
+            </a>
 
-            </div>
+            <a href="http://localhost:8888/temapi/allProducts">
+                <button class="GN"  style="margin-top: 100px;width: 100px;margin-left: 10px;border-radius: 5px" >刷新本页面</button>
+            </a>
         </div>
+        <div class="table-container body"style="overflow: auto; position: absolute; width: 100%;height: 550px;top:150px;" >
+            <table class="tftable" style="height: 450px ;width: 98%">
+                <tr id="front">
+                    <th >商品Id</th>
+                    <th >商品名称</th>
+                    <th>价格</th>
+                    <th>创建时间</th>
+                    <th>类别</th>
+                    <th >商品详情</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="i:${usersList}">
+                    <td th:text="${i.username}" ></td>
+                    <td th:text="${i.nickname}"></td>
+                    <td th:text="${i.createTime}"></td>
+                    <td th:text="${i.mobile}"></td>
+                    <td th:text="${i.address}" ></td>
+                    <td th:text="${i.mind}" ></td>
+                    <td>
+                        <a th:href="@{/temapi/productToUpdate(id=${i.id})}">  <button class="GN" style="border-radius: 5px">修改</button></a>
+                        <a th:href="@{/temapi/deleteProductById(id=${i.id})}"> <button class="GN" style="border-radius: 5px">删除</button></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js "></script>

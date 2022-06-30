@@ -1,14 +1,18 @@
 package com.tangchenyipinye.project.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tangchenyipinye.project.pojo.Admin;
 import com.tangchenyipinye.project.pojo.Product;
+import com.tangchenyipinye.project.pojo.Users;
 import com.tangchenyipinye.project.service.AdminService;
 import com.tangchenyipinye.project.service.ProductService;
+import com.tangchenyipinye.project.service.UsersService;
 import com.tangchenyipinye.project.until.MD5until;
 import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +28,8 @@ public class templatesTest {
     AdminService adminService;
     @Autowired
     ProductService productService;
-
+    @Autowired
+    UsersService usersService;
     @Secured({"ROLE_admins"})
     @RequestMapping("/logout")
     public String logout() {
