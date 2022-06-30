@@ -134,7 +134,7 @@ public class templatesTest {
         if(!s.equals(admin.getAdmin_password())){
             return "redirect:../../admin-login.html";
         }else{
-            return "redirect:/temapi/adminpage";
+            return "redirect:../allProducts";
         }
     }
 
