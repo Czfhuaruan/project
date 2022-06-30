@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public interface ProductMapper extends BaseMapper<Product> {
 

@@ -26,5 +26,25 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         return products;
     }
 
+    @Override
+    public void deleteProductById(int id) {
+
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+
+    }
+
+    @Override
+    public Product selectProductById(int id) {
+        return null;
+    }
+
+    @Override
+    public List selectProductByName(String title) {
+        return null;
+    }
+
 
 }
