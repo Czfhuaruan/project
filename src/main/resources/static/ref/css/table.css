@@ -6,6 +6,7 @@ table.table-count {
     width: 100%;
     border-width: 1px;
     border-collapse: collapse;
+    border-radius: 3px;
 }
 
 table.table-count th,
