@@ -8,7 +8,6 @@ import com.tangchenyipinye.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Wrapper;
 import java.util.List;
 
 @Service
@@ -35,50 +34,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     /*
-    查询所有商品
-    */
-
-
-    /*
-    根据id查找商品信息
-    */
-    @Override
-    public void deleteProductById(int id) {
-        productMapper.deleteById(id);
-    }
-
-    /*
-    更新商品信息
-    */
-    @Override
-    public void updateProduct(Product product) {
-        productMapper.update(product);
-    }
-
-    /*
-    根据id查找商品信息
-    */
-    @Override
-    public Product selectProductById(int id) {
-        Product product = productMapper.selectById(id);
-        return product;
-    }
-
-    /*
-    商品模糊查询功能接口
-    */
-    @Override
-    public List selectProductByName(String title) {
-        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(title!=null,"title",title);
-        List<Product> list = productMapper.selectList(queryWrapper);
-        return list;
-    }
-
-
-
-    /*
-        根据id查找商品信息
+        根据id查找删除商品信息
     */
     @Override
     public void deleteProductById(int id) {
@@ -112,7 +68,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         List<Product> list = productMapper.selectList(queryWrapper);
         return list;
     }
-
 
 
 }

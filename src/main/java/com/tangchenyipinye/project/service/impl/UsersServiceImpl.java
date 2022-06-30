@@ -46,6 +46,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         return map1;
     }
 
+    /*
+        获取用户信息通过Security
+    */
     @Override
     public String getNameBySecurity() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
