@@ -1,5 +1,6 @@
 package com.tangchenyipinye.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tangchenyipinye.project.mapper.ProductMapper;
 import com.tangchenyipinye.project.pojo.Product;
@@ -7,6 +8,7 @@ import com.tangchenyipinye.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Wrapper;
 import java.util.List;
 
 @Service
@@ -47,4 +49,18 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         Product product = productMapper.selectById(id);
         return product;
     }
+
+    /*
+    商品模糊查询功能接口
+    */
+    @Override
+    public List selectProductByName(String title) {
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(title!=null,"title",title);
+        List<Product> list = productMapper.selectList(queryWrapper);
+        return list;
+    }
+
+
+
 }

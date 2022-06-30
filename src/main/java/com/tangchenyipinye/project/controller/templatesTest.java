@@ -81,6 +81,14 @@ public class templatesTest {
     public String adminuser() {
         return "admin-user-control";
     }
+
+//    进入商品添加页面
+    @Secured({"ROLE_admins"})
+    @RequestMapping("addProduct")
+    public String addProduct() {
+        return "addProduct";
+    }
+
     //回到首页
     @Secured({"ROLE_admins"})
     @RequestMapping("/adminpage")
@@ -144,11 +152,23 @@ public class templatesTest {
     }
 
     /*
-    商品信息查询，
-    标题，价格，类别，内容
+        点击商品添加，进入商品添加页面，进行商品添加
+        访问页面路径：http://localhost:8888/temapi/addProduct
+        成功后重定向：http://localhost:8888/temapi/allProducts
     */
-//    @Secured({"ROLE_admins"})
-//    @RequestMapping(value = "/user/register")
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/admin/addProduct",method = RequestMethod.POST)
+    public String addProduct(@RequestParam("title") String title,
+                        @RequestParam("price") Integer price,
+                        @RequestParam("category") String category,
+                        @RequestParam("content") String content) {
+        Product product = new Product(title,price,category,"http://localhost:8888/ref/img/c.jpg",10010,content);
+        int i = productService.addProduct(product);
+        if(i!=1){
+            //添加商品失败 进入错误页面
+        }
+        return "redirect:/temapi/allProducts";
+    }
 
 }
 
