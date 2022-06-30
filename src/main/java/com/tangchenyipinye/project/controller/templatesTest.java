@@ -87,7 +87,9 @@ public class templatesTest {
     public String adminpage() {
         return "admin-homepage";
     }
-
+    /*
+    将商品信息发送到首页
+    */
     @Secured({"ROLE_admins"})
     @GetMapping("/tangchenyipinye")
     public String tangchenyipinye(HttpServletRequest request){
@@ -96,8 +98,10 @@ public class templatesTest {
         return "tangchenyipinye";
     }
 
-
-    //获取商品信息传到前台
+    /*
+        获取商品信息发送到商品管理页面
+        跳转到“商品管理页面”；
+    */
     @Secured({"ROLE_admins"})
     @GetMapping("/allProducts")
     public String allProducts(Model model) {
@@ -106,7 +110,9 @@ public class templatesTest {
         return "admin-goods-control";
     }
 
-   /* //通过id删除商品
+    /*
+    通过id删除商品
+    */
     @Secured({"ROLE_admins"})
     @RequestMapping("/deleteProductById")
     public String deleteProductById(int id) {
@@ -114,10 +120,10 @@ public class templatesTest {
         return "redirect:/temapi/allProducts";
     }
 
-    *//*
-        点击修改商品，获取到商品id
-        通过商品id查找商品后，跳转到商品页面修改商品
-    *//*
+    /*
+        点击修改商品后，获取到商品id
+        跳转到商品修改页面修改该商品
+    */
     @Secured({"ROLE_admins"})
     @RequestMapping("/productToUpdate")
     public String toProductUpdate(Model model, int id) {
@@ -126,13 +132,16 @@ public class templatesTest {
         return "productUpdate";
     }
 
-
-    //通过id修改商品
+    /*
+        取到商品id后，进入修改页面
+        删除此id的商品
+    */
+    @Secured({"ROLE_admins"})
     @RequestMapping("/productUpdate")
-    public String updateProductById() {
-
-        return "redirect:productUpdate";
-    }*/
+    public String updateProduct(Product product) {
+        productService.updateProduct(product);
+        return "redirect:/temapi/allProducts";
+    }
 
     /*
     商品信息查询，
