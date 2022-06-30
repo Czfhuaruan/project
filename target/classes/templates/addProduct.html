@@ -80,7 +80,7 @@
                 <p class="pt">选择商品图片：</p>
                 <input type="file" name="upload"    placeholder="上传图片"><br>
 
-                <input type="submit" value="添加" class="GN"  style="margin-left: 600px; margin-top: 20px">
+                <input type="submit" value="添加" class="GN"  onclick="onclik()" style=" border-radius: 5px;margin-left: 600px; margin-top: 20px">
                 <a href="/toAdd" th:href="@{/temapi/allProducts}" class="btn btn-info" style="margin-left:60px">返回</a>
             </form>
         </div>
@@ -88,4 +88,10 @@
 </div>
 
 </body>
+<script type="text/javascript">
+    function onclik(){
+        alert("添加成功！")
+    }
+
+</script>
 </html>
