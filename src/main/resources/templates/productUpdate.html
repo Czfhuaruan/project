@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>商品更新</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="http://localhost:8888/ref/css/table.css" rel="stylesheet">
+    <link href="http://localhost:8888/ref/css/admin-button.css" rel="stylesheet">
+    <link href="http://localhost:8888/ref/css/admin-homepage.css" rel="stylesheet">
 </head>
 <body>
 <div class="navbar">
@@ -60,47 +64,28 @@
 
     </ul>
     <div class="main">
-        <br/>
-        <h1>修改商品信息</h1>
-        <br/><br/>
-        <div class="with:80%">
-            <form class="form-horizontal"   th:action="@{/temapi/productUpdate}" th:object="${product}"  method="post">
+        <div style="position: absolute;width: 98%;height:150px;top:0px; ">
+            <h1>修改商品信息</h1>
+        </div>
+
+        <div style="overflow: auto; position: absolute; width: 100%;height: 550px;top:150px;" >
+            <form class="box"   th:action="@{/temapi/productUpdate}" th:object="${product}"  method="post">
                 <input type="hidden" name="id" th:value="*{id}" />
-                <div class="form-group">
-                    <label for="title" class="col-sm-2 control-label">商品名称：</label>
-                    <div class="col-sm-10">
+
+                 <p class="pt">商品名称:</p>
                         <input type="text" class="form-control" name="title"  id="title" th:value="*{title}" placeholder="修改名称"/>
-                    </div>
-                </div>
+                  <p class="pt">商品价格：</p>
+<!--                        商品价格始终为正数-->
+                        <input type="number" class="form-control" name="price" id="price"  th:value="*{price}" placeholder="修改价格" step="1" min="0" onkeyup="this.value= this.value.match(/\d+(\.\d{0,2})?/) ? this.value.match(/\d+(\.\d{0,2})?/)[0] : ''">
 
-                <div class="form-group">
-                    <label for="price" class="col-sm-2 control-label" >商品价格：</label>
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" name="price" id="price"  th:value="*{price}" placeholder="修改价格"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="category" class="col-sm-2 control-label" >商品类别：</label>
-                    <div class="col-sm-10">
+                  <p class="pt">商品类别：</p>
                         <input type="text" class="form-control" name="category" id="category"  th:value="*{category}" placeholder="修改类别"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="content" class="col-sm-2 control-label" >商品详情：</label>
-                    <div class="col-sm-10">
+                  <p class="pt">商品详情：</p>
                         <input type="text" class="form-control" name="content" id="content"  th:value="*{content}" placeholder="修改内容"/>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <input type="submit" value="修改" class="btn btn-info" />
-                        <a href="/toAdd" th:href="@{/temapi/allProducts}" class="btn btn-info">返回</a>
-                    </div>
+                        <input type="submit" value="修改" class="GN"  style="margin-left: 600px; margin-top: 10px"/>
+                        <a href="/toAdd" th:href="@{/temapi/allProducts}" class="btn btn-info" style="margin-left:60px">返回</a>
 
-                </div>
             </form>
         </div>
     </div>

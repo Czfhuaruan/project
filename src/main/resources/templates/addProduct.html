@@ -7,7 +7,8 @@
     <!-- 引入字体图标 -->
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
     <link href="http://localhost:8888/ref/css/admin-homepage.css" rel="stylesheet">
-    <link href="http://localhost:8888/ref/css/table.css" rel="stylesheet">
+    <link href="http://localhost:8888/ref/css/admin-button.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="navbar">
@@ -65,15 +66,30 @@
         </li>
 
     </ul>
-    <div class="main">
-        <form class="box" action="/temapi/admin/addProduct" method="post">
+
+    <div class="main ">
+        <div style="position: absolute;width: 98%;height:150px;top:0px; ">
             <h1>增加商品</h1>
-            <input type="text" name="title" placeholder="请输入商品名">
-            <input type="number" name="price" placeholder="请输入商品价格">
-            <input type="text" name="category" placeholder="选择类别">
-            <input type="text" name="content" placeholder="请输入商品内容">
-            <input type="submit" value="确认添加">
-        </form>
+            <hr>
+        </div>
+        <div class="table-container body"style="overflow: auto; position: absolute; width: 100%;height: 550px;top:150px;" >
+            <form class="box" action="/temapi/admin/addProduct" method="post">
+
+                <p class="pt">请输入商品名：</p>
+                <input type="text" name="title"     placeholder="请输入商品名">
+                <p class="pt">请输入商品价格：</p>
+                <input type="number" name="price"   placeholder="请输入商品价格" step="1" min="0" onkeyup="this.value= this.value.match(/\d+(\.\d{0,2})?/) ? this.value.match(/\d+(\.\d{0,2})?/)[0] : ''">
+                <p class="pt">请输入类别：</p>
+                <input type="text" name="category"  placeholder="输入类别">
+                <p class="pt">请输入商品详情：</p>
+                <input type="text" name="content"   placeholder="请输入商品内容">
+                <p class="pt">选择商品图片：</p>
+                <input type="file" name="upload"    placeholder="上传图片"><br>
+
+                <input type="submit" value="添加" class="GN"  style="margin-left: 600px; margin-top: 20px">
+                <a href="/toAdd" th:href="@{/temapi/allProducts}" class="btn btn-info" style="margin-left:60px">返回</a>
+            </form>
+        </div>
     </div>
 </div>
 
