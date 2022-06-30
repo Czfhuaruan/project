@@ -20,4 +20,6 @@ public interface UsersService extends IService<Users> {
     public int insert(Users users);
 
     public List selectByMap(String username);
+
+    public String getNameBySecurity();
 }

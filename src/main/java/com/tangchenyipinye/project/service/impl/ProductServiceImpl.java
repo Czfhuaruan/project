@@ -19,4 +19,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         int i = productMapper.insert(product);
         return i;
     }
+
+    @Override
+    public List<Product> selectBycategory(String name) {
+        List<Product> products=productMapper.selectBycategory(name);
+        return products;
+    }
+
+
 }

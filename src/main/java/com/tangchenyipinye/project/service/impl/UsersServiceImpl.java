@@ -5,6 +5,8 @@ import com.tangchenyipinye.project.mapper.UsersMapper;
 import com.tangchenyipinye.project.pojo.Users;
 import com.tangchenyipinye.project.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -35,5 +37,11 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         List map1 = usersMapper.selectByMap(map);
 
         return map1;
+    }
+
+    @Override
+    public String getNameBySecurity() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getUsername();
     }
 }
