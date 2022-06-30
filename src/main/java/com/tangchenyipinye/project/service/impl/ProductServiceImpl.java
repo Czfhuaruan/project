@@ -34,24 +34,45 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         return products;
     }
 
+    /*
+    查询所有商品
+    */
+
+
+    /*
+    根据id查找商品信息
+    */
     @Override
     public void deleteProductById(int id) {
-
+        productMapper.deleteById(id);
     }
 
+    /*
+    更新商品信息
+    */
     @Override
     public void updateProduct(Product product) {
-
+        productMapper.update(product);
     }
 
+    /*
+    根据id查找商品信息
+    */
     @Override
     public Product selectProductById(int id) {
-        return null;
+        Product product = productMapper.selectById(id);
+        return product;
     }
 
+    /*
+    商品模糊查询功能接口
+    */
     @Override
     public List selectProductByName(String title) {
-        return null;
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(title!=null,"title",title);
+        List<Product> list = productMapper.selectList(queryWrapper);
+        return list;
     }
 
 
