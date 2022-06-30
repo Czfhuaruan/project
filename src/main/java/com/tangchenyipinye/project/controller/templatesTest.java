@@ -139,7 +139,39 @@ public class templatesTest {
     @GetMapping("/tangchenyipinye")
     public String tangchenyipinye(HttpServletRequest request){
         List<Product> productsList = productService.list();
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
         request.setAttribute("productsList",productsList);
+        return "tangchenyipinye";
+    }
+
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye/shengcha")
+    public String tangchenyipinyeshengcha(HttpServletRequest request){
+        List<Product> productsList = productService.selectBycategory("生茶");
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
+        return "tangchenyipinye";
+    }
+
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye/shucha")
+    public String tangchenyipinyeshucha(HttpServletRequest request){
+        List<Product> productsList = productService.selectBycategory("熟茶");
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
+        return "tangchenyipinye";
+    }
+
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye/shengshu")
+    public String tangchenyipinyeshengshu(HttpServletRequest request){
+        List<Product> productsList = productService.selectBycategory("生熟套装");
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
         return "tangchenyipinye";
     }
 
