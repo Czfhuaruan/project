@@ -1,6 +1,5 @@
 package com.tangchenyipinye.project.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tangchenyipinye.project.pojo.Admin;
 import com.tangchenyipinye.project.pojo.Product;
 import com.tangchenyipinye.project.pojo.Users;
@@ -12,13 +11,19 @@ import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 @Api(tags = "templates测试")
 @Controller
@@ -30,6 +35,7 @@ public class templatesTest {
     ProductService productService;
     @Autowired
     UsersService usersService;
+
     @Secured({"ROLE_admins"})
     @RequestMapping("/logout")
     public String logout() {
@@ -48,7 +54,7 @@ public class templatesTest {
         if (!s.equals(admin.getAdmin_password())) {
             return "success";
         }
-        return "redirect:../allProducts";
+        return "admin-homepage";
     }
 
     @Secured({"ROLE_admins"})
@@ -87,6 +93,8 @@ public class templatesTest {
         return "admin-user-control";
     }
 
+
+
 //    进入商品添加页面
     @Secured({"ROLE_admins"})
     @RequestMapping("addProduct")
@@ -94,14 +102,27 @@ public class templatesTest {
         return "addProduct";
     }
 
+
     //回到首页
     @Secured({"ROLE_admins"})
     @RequestMapping("/adminpage")
     public String adminpage() {
         return "admin-homepage";
     }
+
+
     /*
-    将商品信息发送到首页
+                 *********商品信息管理模块*********
+
+                 *********1.获取所有商品信息
+                 *********2.通过id删除商品信息
+                 *********3.获取修改商品id
+                 *********4.修改商品
+                 *********5.添加商品
+                 *********6.商品模糊查询
+    */
+    /*
+        将商品信息发送到首页
     */
     @Secured({"ROLE_admins"})
     @GetMapping("/tangchenyipinye")
@@ -124,13 +145,13 @@ public class templatesTest {
     }
 
     /*
-    通过id删除商品
+        通过id删除商品
     */
     @Secured({"ROLE_admins"})
     @RequestMapping("/deleteProductById")
     public String deleteProductById(int id) {
         productService.deleteProductById(id);
-        return "redirect:../temapi/allProducts";
+        return "redirect:/temapi/allProducts";
     }
 
     /*
@@ -147,7 +168,7 @@ public class templatesTest {
 
     /*
         取到商品id后，进入修改页面
-        删除此id的商品
+        修改此id的商品
     */
     @Secured({"ROLE_admins"})
     @RequestMapping("/productUpdate")
@@ -187,6 +208,143 @@ public class templatesTest {
         model.addAttribute("productsList", list);
         return "admin-goods-control";
     }
+
+
+
+    /*
+             *********商品信息管理模块*********
+
+             *********1.获取所有用户信息
+             *********2.通过id删除用户信息
+             *********3.获取修改用户id
+             *********4.修改用户
+             *********5.添加用户
+             *********6.用户模糊查询
+    */
+
+    /*
+        获取用户信息发送到用户管理页面
+        跳转到“用户管理页面”；
+    */
+    @Secured({"ROLE_admins"})
+    @GetMapping("/allUsers")
+    public String allUsers(Model model) {
+        List<Users> usersList = usersService.list();
+        model.addAttribute("usersList", usersList);
+        return "admin-user-control";
+    }
+
+    /*
+        点击修改用户后，获取到用户id
+        跳转到用户修改页面修改该用户信息
+        用户修改页面：userUpdate.html
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/userToUpdate")
+    public String toUserUpdate(Model model, int id) {
+        Users users = usersService.selectUserById(id);
+        model.addAttribute("users", users);
+        return "userUpdate";
+    }
+
+    /*
+        取到用户id后，进入修改页面
+        修改此id的用户
+        修改成功后回到商品管理页面
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/userUpdate")
+    public String updateUser(Users users) {
+        usersService.updateUser(users);
+        return "redirect:/temapi/allUsers";
+    }
+
+    /*
+        进入商品添加页面
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("toAddUser")
+    public String toUser() {
+        return "addUser";
+    }
+
+    /*
+        点击商品添加，进入商品添加页面，进行商品添加
+        访问页面路径：http://localhost:8888/temapi/addProduct
+        成功后重定向：http://localhost:8888/temapi/allProducts
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/admin/addUser",method = RequestMethod.POST)
+    public String addUser(@RequestParam("username") String username,
+                             @RequestParam("nickname") String nickname,
+                             @RequestParam("mobile") String mobile,
+                             @RequestParam("address") String address,
+                             @RequestParam("email") String email) {
+        Users users = new Users();
+        users.setUsername(username);
+        users.setNickname(nickname);
+        users.setMobile(mobile);
+        users.setAddress(address);
+        users.setEmail(email);
+        int i = usersService.addUser(users);
+        if(i!=1){
+            //添加商品失败 进入错误页面
+        }
+        return "redirect:/temapi/allUsers";
+    }
+
+    /*
+        通过id删除用户
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/deleteUserById")
+    public String deleteUserById(int id) {
+        usersService.deleteUserById(id);
+        return "redirect:/temapi/allUsers";
+    }
+
+    /*
+        通过用户名称模糊查询用户信息
+        将找到的结果返回到所有用户页面
+        重定向：
+    */
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/selectUserByName",method = RequestMethod.POST)
+    public String selectUserByName(Model model,@RequestParam("username") String username){
+        List list = usersService.selectUserByName(username);
+        model.addAttribute("usersList", list);
+        return "admin-user-control";
+    }
+
+
+
+    /*
+        用户注册，用户名唯一，不然注册失败
+        注册成功后跳转到登录页面
+    */
+    /*@Secured({"ROLE_admins"})
+    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
+    public String register(@RequestParam("username") String username,
+                       @RequestParam("password") String password,
+                       @RequestParam String password1,
+                       @RequestParam("nickname") String nickname,
+                       @RequestParam("mobile") String mobile,
+                       @RequestParam("email") String email) {
+        //        mybatis-plus下的通过map方式进行条件查询
+        //        判断用户名是否已存在
+        List list = usersService.selectByMap(username);
+        if (list.size() >= 1) {
+
+        } else {
+            Users users = new Users(username, MD5until.string2MD5(password), nickname, mobile,  email);
+            int i = usersService.insert(users);
+            if (i != 1) {
+
+            }
+        }
+        return "redirect:../../login.html";
+
+    }*/
 
 }
 

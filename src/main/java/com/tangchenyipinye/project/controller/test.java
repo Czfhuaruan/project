@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.parameters.P;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,13 +59,13 @@ public class test {
     }
 
 
-    @Secured({"ROLE_admins"})
+    /*@Secured({"ROLE_admins"})
     @GetMapping("/register")
     public R register() {
         List<Users> usersList = usersService.list();
         System.out.println(usersList);
         return R.ok().data("usersList", usersList);
-    }
+    }*/
 
 
     //    增加管理员接口,管理员用户名唯一
@@ -87,31 +88,6 @@ public class test {
         return R.ok().data("msg", "插入成功");
     }
 
-    //    用户注册接口，用户名唯一
-    @Secured({"ROLE_admins"})
-    @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public R register2(@RequestParam("username") String username,
-                       @RequestParam("password") String password,
-                       @RequestParam String password1,
-                       @RequestParam("nickname") String nickname,
-                       @RequestParam("mobile") String mobile,
-                       @RequestParam("address") String address,
-                       @RequestParam("e-mail") String email) {
-        //        mybatis-plus下的通过map方式进行条件查询
-        //        判断用户名是否已存在
-        List list = usersService.selectByMap(username);
-        if (list.size() >= 1) {
-            return R.ok().data("msg", "用户已存在");
-        } else {
-//            Users users = new Users(username, MD5until.string2MD5(password), nickname, mobile, address);
-            Users users = new Users(username, MD5until.string2MD5(password), nickname, mobile, address, email);
-            int i = usersService.insert(users);
-            if (i != 1) {
-                return R.error();
-            }
-        }
-        return R.ok().data("msg", "添加成功");
-    }
 
     //    商品添加接口
     @Secured({"ROLE_admins"})
@@ -126,6 +102,41 @@ public class test {
             return R.ok().error();
         }
         return R.ok().data("msg","添加成功");
+    }
+
+    /*
+     *********用户信息管理模块*********
+
+     *********用户注册*********
+     */
+
+    /*
+        用户注册，用户名唯一，不然注册失败
+        注册成功后跳转到登录页面
+    */
+//    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/user/register")
+    public R register2(@RequestParam("username") String username,
+                            @RequestParam("password") String password,
+                            @RequestParam String password1,
+                            @RequestParam("nickname") String nickname,
+                            @RequestParam("mobile") String mobile,
+                            @RequestParam("email") String email) {
+        //        mybatis-plus下的通过map方式进行条件查询
+        //        判断用户名是否已存在
+        List list = usersService.selectByMap(username);
+        System.out.println("11111111111");
+        if (list.size() >= 1) {
+            System.out.println("222222222222222222");
+            return R.error().data("msg","用户不唯一");
+        } else {
+            Users users = new Users(username, MD5until.string2MD5(password), nickname, mobile,  email);
+            int i = usersService.insert(users);
+            if (i != 1) {
+                return R.error().data("msg","添加失败");
+            }
+        }
+        return R.ok();
     }
 
 
