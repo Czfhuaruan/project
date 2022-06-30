@@ -88,13 +88,23 @@ public class templatesTest {
     public String adminuser() {
         return "admin-user-control";
     }
+
+//    进入商品添加页面
+    @Secured({"ROLE_admins"})
+    @RequestMapping("addProduct")
+    public String addProduct() {
+        return "addProduct";
+    }
+
     //回到首页
     @Secured({"ROLE_admins"})
     @RequestMapping("/adminpage")
     public String adminpage() {
         return "admin-homepage";
     }
-
+    /*
+    将商品信息发送到首页
+    */
     @Secured({"ROLE_admins"})
     @GetMapping("/tangchenyipinye")
     public String tangchenyipinye(HttpServletRequest request){
@@ -135,8 +145,10 @@ public class templatesTest {
         return "tangchenyipinye";
     }
 
-
-    //获取商品信息传到前台
+    /*
+        获取商品信息发送到商品管理页面
+        跳转到“商品管理页面”；
+    */
     @Secured({"ROLE_admins"})
     @GetMapping("/allProducts")
     public String allProducts(Model model) {
@@ -145,7 +157,9 @@ public class templatesTest {
         return "admin-goods-control";
     }
 
-   /* //通过id删除商品
+    /*
+    通过id删除商品
+    */
     @Secured({"ROLE_admins"})
     @RequestMapping("/deleteProductById")
     public String deleteProductById(int id) {
@@ -153,10 +167,10 @@ public class templatesTest {
         return "redirect:/temapi/allProducts";
     }
 
-    *//*
-        点击修改商品，获取到商品id
-        通过商品id查找商品后，跳转到商品页面修改商品
-    *//*
+    /*
+        点击修改商品后，获取到商品id
+        跳转到商品修改页面修改该商品
+    */
     @Secured({"ROLE_admins"})
     @RequestMapping("/productToUpdate")
     public String toProductUpdate(Model model, int id) {
@@ -165,20 +179,35 @@ public class templatesTest {
         return "productUpdate";
     }
 
-
-    //通过id修改商品
+    /*
+        取到商品id后，进入修改页面
+        删除此id的商品
+    */
+    @Secured({"ROLE_admins"})
     @RequestMapping("/productUpdate")
-    public String updateProductById() {
-
-        return "redirect:productUpdate";
-    }*/
+    public String updateProduct(Product product) {
+        productService.updateProduct(product);
+        return "redirect:/temapi/allProducts";
+    }
 
     /*
-    商品信息查询，
-    标题，价格，类别，内容
+        点击商品添加，进入商品添加页面，进行商品添加
+        访问页面路径：http://localhost:8888/temapi/addProduct
+        成功后重定向：http://localhost:8888/temapi/allProducts
     */
-//    @Secured({"ROLE_admins"})
-//    @RequestMapping(value = "/user/register")
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/admin/addProduct",method = RequestMethod.POST)
+    public String addProduct(@RequestParam("title") String title,
+                        @RequestParam("price") Integer price,
+                        @RequestParam("category") String category,
+                        @RequestParam("content") String content) {
+        Product product = new Product(title,price,category,"http://localhost:8888/ref/img/c.jpg",10010,content);
+        int i = productService.addProduct(product);
+        if(i!=1){
+            //添加商品失败 进入错误页面
+        }
+        return "redirect:/temapi/allProducts";
+    }
 
 }
 

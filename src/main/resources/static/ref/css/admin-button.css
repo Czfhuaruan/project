@@ -1,0 +1,17 @@
+@charset "UTF-8";
+.GN{
+    color: black;
+    background:#2ecc71;
+    border:0;
+
+    border:2px solid #f8f8f8;
+    padding:8px 5px;
+    cursor:pointer;
+    width:60px;
+    outline:none;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+.GN:hover{
+    background-color: #e33838;
+}
