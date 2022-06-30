@@ -1,5 +1,6 @@
 package com.tangchenyipinye.project.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tangchenyipinye.project.pojo.Admin;
 import com.tangchenyipinye.project.pojo.Product;
 import com.tangchenyipinye.project.pojo.Users;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,8 @@ public class templatesTest {
     AdminService adminService;
     @Autowired
     ProductService productService;
+    @Autowired
+    UsersService usersService;
 
     @Autowired
     UsersService usersService;
@@ -50,7 +54,7 @@ public class templatesTest {
         if (!s.equals(admin.getAdmin_password())) {
             return "success";
         }
-        return "admin-homepage";
+        return "redirect:../allProducts";
     }
 
     @Secured({"ROLE_admins"})
@@ -164,7 +168,7 @@ public class templatesTest {
     @RequestMapping("/deleteProductById")
     public String deleteProductById(int id) {
         productService.deleteProductById(id);
-        return "redirect:/temapi/allProducts";
+        return "redirect:../temapi/allProducts";
     }
 
     /*
@@ -207,6 +211,19 @@ public class templatesTest {
             //添加商品失败 进入错误页面
         }
         return "redirect:/temapi/allProducts";
+    }
+
+    /*
+        通过商品名称模糊查询商品信息
+        将找到的结果返回到所有商品页面
+        重定向：
+    */
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/selectProductByName",method = RequestMethod.POST)
+    public String selectProductByName(Model model,@RequestParam("title") String title){
+        List list = productService.selectProductByName(title);
+        model.addAttribute("productsList", list);
+        return "admin-goods-control";
     }
 
 }

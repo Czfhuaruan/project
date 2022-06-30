@@ -1,0 +1,22 @@
+
+spring:
+  application:
+    name: tangchenyipinye
+  mvc:
+    contentnegotiation:
+      favor-parameter: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.18.54.18:3306/addb?useUnicode=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:com/tangchenyipinye/project/mapper/xml/*.xml
+server:
+  port: 8888
+
