@@ -35,19 +35,34 @@
     </style>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script>
-        // $(document).ready(function(){
-        //     $.ajax({
-        //         url:'/api/hello',
-        //         data:{},
-        //         dataType:"json",
-        //         success:function(data,st){
-        //             console.log(data.message);
-        //             if(data.message == "成功"){
-        //                     data.productlist
-        //             }
-        //         }
-        //     })
-        // })
+        $(document).ready(function(){
+            // $.ajax({
+            //     url:'/api/hello',
+            //     data:{},
+            //     dataType:"json",
+            //     success:function(data,st){
+            //         console.log(data.message);
+            //         if(data.message == "成功"){
+            //                 data.productlist
+            //         }
+            //     }
+            // })
+            $(".buytea").click(function () {
+                $.ajax({
+                    url:'/api/shopcar/addProduct',
+                    data:{
+                        "prod":this.attr("id")
+                    },
+                    dataType:"json",
+                    success:function(data,st){
+                        // console.log(data.message);
+                        if(data.message == "成功"){
+                                alert("加入"+data.message+"!");
+                        }
+                    }
+                })
+            })
+        })
     </script>
 </head>
 <body>
@@ -151,7 +166,7 @@
                 <h6><small th:text="${productsList.category}"></small></h6>
                 <p th:text="${#strings.length(productsList.content)}<7? ${productsList.content} : ${#strings.substring(productsList.content,1,15)}+'.....'"></p>
                 <p><span class="glyphicon glyphicon-yen"></span><span th:text="${productsList.price}"></span></p>
-                <p> <button type="button" class="btn btn-success"  th:id="${productsList.id}" >购买</button></p>
+                <p> <button type="button" class="btn btn-success buytea"  th:id="${productsList.id}" >购买</button></p>
             </div>
         </div>
             </th:block>
