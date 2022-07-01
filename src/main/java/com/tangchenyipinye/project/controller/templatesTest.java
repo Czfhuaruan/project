@@ -47,11 +47,13 @@ public class templatesTest {
     public String adminRegister(@RequestParam("username") String username,
                                 @RequestParam("password") String password) {
         System.out.println(username + "----" + password);
+        String s = MD5until.string2MD5(password);
         Admin admin = adminService.getUserByNameAndPass(username, password);
 //        解密
-        String s = MD5until.string2MD5(password);
+
         if (!s.equals(admin.getAdmin_password())) {
-            return "success";
+
+            return "redirect:../admin-login";
         }
         return "redirect:../allProducts";
     }

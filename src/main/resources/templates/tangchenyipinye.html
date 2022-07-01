@@ -36,6 +36,7 @@
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script>
         $(document).ready(function(){
+            //单击购买
             $(".buytea").click(function () {
                 $.ajax({
                     url:'/api/shopcar/addProduct',
@@ -50,6 +51,7 @@
                     }
                 })
             });
+            //购物车
             $("#gouwuche").click(function () {
                 $.ajax({
                     url:'/api/shopcar/selectallproudct',
@@ -62,6 +64,53 @@
                         for(i=0;i<count;i++)
                         {
                             $("#gouwubiao").append("<tr id='"+data.data.usershopcars[i].prod+"'><td>"+data.data.usershopcars[i].pname+"</td><td>"+data.data.usershopcars[i].price+"</td><td>"+data.data.usershopcars[i].count+"</td><td>"+data.data.usershopcars[i].total+"</td></tr>");
+                        }
+                    }
+                })
+            })
+            //支付
+            $("#zhufu").click(function () {
+                $.ajax({
+                    type:"post",
+                    url:'/api/ali-pay/trade/page/pay',
+                    data:{},
+                    dataType:"json",
+                    success:function (data,st) {
+                        console.log(data);
+                        document.write(data.data.formStr);
+                    }
+                })
+            })
+            //清空购物车
+            $("#clean").click(function () {
+                $.ajax({
+                    type:"get",
+                    url:'/api/shopcar/deleteproductfromusershopcar',
+                    data:{},
+                    dataType:"json",
+                    success:function (data,st) {
+                        $("#gouwubiao").html("");
+                        alert(data.data.msg);
+                    }
+                })
+            })
+            //个人订单
+            $("#dingdan").click(function () {
+                $.ajax({
+                    url:'/api/shopcar/selectdingdanByusername',
+                    data:{},
+                    dataType:"json",
+                    success:function(data,st){
+                        console.log(data.data.userorderInfos);
+                        var count = data.data.userorderInfos.length;
+                        $("#dingdanbiao").html("");
+                        for(i=0;i<count;i++)
+                        {
+                            // if(data.data.userorderInfos[i].orderStatus == '未支付'){
+                                $("#dingdanbiao").append("<tr id='"+data.data.userorderInfos[i].id+"' ><td>"+data.data.userorderInfos[i].orderNo+"</td><td>"+data.data.userorderInfos[i].title+"</td><td>"+data.data.userorderInfos[i].totalFee+"</td></tr>");
+                            // }else {
+                             //   $("#dingdanbiao").append("<tr id='"+data.data.userorderInfos[i].id+"' ><td>"+data.data.userorderInfos[i].orderNo+"</td><td>"+data.data.userorderInfos[i].title+"</td><td>"+data.data.userorderInfos[i].price+"</td></tr>");
+                            // }
                         }
                     }
                 })
@@ -105,9 +154,9 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" th:text="${Username}"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="${Username}"></span><span class="glyphicon glyphicon-user"></span></a>
                     <ul class="dropdown-menu" >
-                        <li><a href="#home">个人设置</a></li>
+                        <li><a href="#home" data-toggle="modal" data-target="#myModaldingdan" id="dingdan">个人订单</a></li>
                         <li><a href="#profile" data-toggle="modal" data-target="#myModal" id="gouwuche">购物车</a></li>
                         <li><a href="http://localhost:8888/logout">退出</a></li>
                     </ul>
@@ -198,8 +247,32 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">清空</button>
-                <button type="button" class="btn btn-success">支付</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="clean">清空</button>
+                <button type="button" class="btn btn-success" id="zhufu">支付</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 订单-->
+<div class="modal fade" id="myModaldingdan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabeldingdan"><span class="glyphicon glyphicon-shopping-cart"></span></h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <th>订单号</th>
+                    <th>商品列表</th>
+                    <th>金额</th>
+                    <th>支付状态</th>
+                    <tbody id="dingdanbiao">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
