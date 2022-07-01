@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:http="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href=" http://localhost:8888/ref/css/login.css" rel="stylesheet">
+    <script type="text/javascript" src="http://localhost:8888/ref/js/check.js"></script>
+</head>
+<body>
+<form class="box" action="/temapi/user/register" method="post" onsubmit="return check_all()">
+    <h1>在线茶叶销售系统注册</h1>
+    <input type="text" name="username"  id="username" maxlength="16" placeholder="请输入用户名">
+    <input type="password" name="password" id="f-password" placeholder="请输入密码">
+    <input type="password" name="password1" id="s-password" placeholder="请确认密码" onblur="checkpassword()">
+    <input type="text" name="nickname" id="nickname" placeholder="请输入昵称">
+    <input type="text" name="mobile" id="phone" placeholder="请输入电话号码" onblur="checkPhone()">
+    <input type="text" name="email" id="e-mail" placeholder="请输入邮箱" onblur="check_email()"> <!--地址改成邮箱-需要正则表达式验证-->
+    <input type="submit" value="注册"  >
+</form>
+</body>
+<script>
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            location.reload();
+        }
+    })
+</script>
+</html>

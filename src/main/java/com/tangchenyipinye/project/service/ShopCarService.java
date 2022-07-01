@@ -18,4 +18,6 @@ public interface ShopCarService extends IService<shopcar> {
 
     //查找个人的购物车所有产品
     List<shopcar> selectshopcarByusername();
+
+    int deleteproductfromusershopcar();
 }

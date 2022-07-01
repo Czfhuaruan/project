@@ -58,4 +58,13 @@ public class ShopCarServiceImpl extends ServiceImpl<ShopCarMapper, shopcar> impl
         List<shopcar> shopcars=shopCarMapper.selectByMap(shopcarusername);
         return shopcars;
     }
+
+    @Override
+    public int deleteproductfromusershopcar() {
+        Map shopcarusername = new HashMap();
+        String username= usersService.getNameBySecurity();
+        shopcarusername.put("username",username);
+        baseMapper.deleteByMap(shopcarusername);
+        return 0;
+    }
 }

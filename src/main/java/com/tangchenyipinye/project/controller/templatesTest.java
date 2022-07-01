@@ -36,13 +36,28 @@ public class templatesTest {
         return "success";
     }
 
+//    //    管理员登录接口
+//    @Secured({"ROLE_admins"})
+//    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+//    public String adminRegister(@RequestParam("username") String username,
+//                                @RequestParam("password") String password) {
+//        System.out.println(username + "----" + password);
+//        Admin admin = adminService.getUserByNameAndPass(username, password);
+////        解密
+//        String s = MD5until.string2MD5(password);
+//        if (!s.equals(admin.getAdmin_password())) {
+//            return "success";
+//        }
+//        return "redirect:../allProducts";
+//    }
+
     @Secured({"ROLE_admins"})
     @RequestMapping("/admindb")
     public String admindbcontrol(Model model) {
-            int i = 1;
+        int i = 1;
         Data_status returndata=dataService.selectData_status(i);
         model.addAttribute("data",returndata);
-            return "admin-db-control";
+        return "admin-db-control";
     }
 
     //    进入商品添加页面
@@ -126,10 +141,10 @@ public class templatesTest {
      *********2.
      *********3.
      *********4.
-    */
+     */
 
     /*
-        将商品信息发送到首页
+    将商品信息发送到首页
     */
     @Secured({"ROLE_admins"})
     @GetMapping("/tangchenyipinye")
@@ -138,6 +153,16 @@ public class templatesTest {
         String username= usersService.getNameBySecurity();
         request.setAttribute("Username",username);
         request.setAttribute("productsList",productsList);
+        return "tangchenyipinye";
+    }
+
+    @Secured({"ROLE_admins"})
+    @GetMapping("/tangchenyipinye/shengcha")
+    public String tangchenyipinyeshengcha(HttpServletRequest request){
+        List<Product> productsList = productService.selectBycategory("生茶");
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
         return "tangchenyipinye";
     }
 
@@ -161,29 +186,16 @@ public class templatesTest {
         return "tangchenyipinye";
     }
 
-    @Secured({"ROLE_admins"})
-    @GetMapping("/tangchenyipinye/shengcha")
-    public String tangchenyipinyeshengcha(HttpServletRequest request){
-        List<Product> productsList = productService.selectBycategory("生茶");
-        request.setAttribute("productsList",productsList);
-        String username= usersService.getNameBySecurity();
-        request.setAttribute("Username",username);
-        return "tangchenyipinye";
-    }
-
-
     /*
-                 *********商品信息管理模块*********
+     *********商品信息管理模块*********
 
-                 *********1.获取所有商品信息
-                 *********2.通过id删除商品信息
-                 *********3.获取修改商品id
-                 *********4.修改商品
-                 *********5.添加商品
-                 *********6.商品模糊查询
-    */
-
-
+     *********1.获取所有商品信息
+     *********2.通过id删除商品信息
+     *********3.获取修改商品id
+     *********4.修改商品
+     *********5.添加商品
+     *********6.商品模糊查询
+     */
     /*
         获取商品信息发送到商品管理页面
         跳转到“商品管理页面”；
@@ -205,7 +217,6 @@ public class templatesTest {
         productService.deleteProductById(id);
         return "redirect:../temapi/allProducts";
     }
-
 
     /*
         点击修改商品后，获取到商品id
@@ -238,9 +249,9 @@ public class templatesTest {
     @Secured({"ROLE_admins"})
     @RequestMapping(value = "/admin/addProduct",method = RequestMethod.POST)
     public String addProduct(@RequestParam("title") String title,
-                        @RequestParam("price") Integer price,
-                        @RequestParam("category") String category,
-                        @RequestParam("content") String content) {
+                             @RequestParam("price") Integer price,
+                             @RequestParam("category") String category,
+                             @RequestParam("content") String content) {
         Product product = new Product(title,price,category,"http://localhost:8888/ref/img/c.jpg",10010,content);
         int i = productService.addProduct(product);
         if(i!=1){
@@ -262,14 +273,14 @@ public class templatesTest {
         return "admin-goods-control";
     }
     /*
-                 *********用户信息管理模块*********
+     *********用户信息管理模块*********
 
-                 *********1.获取所有用户信息
-                 *********2.通过id删除用户信息
-                 *********3.获取修改用户id
-                 *********4.修改用户
-                 *********5.添加用户
-                 *********6.用户模糊查询
+     *********1.获取所有用户信息
+     *********2.通过id删除用户信息
+     *********3.获取修改用户id
+     *********4.修改用户
+     *********5.添加用户
+     *********6.用户模糊查询
      */
 
     /*
@@ -367,14 +378,14 @@ public class templatesTest {
     }
 
     /*
-             *********管理员信息管理模块*********
+     *********管理员信息管理模块*********
 
-             *********1.获取所有管理员信息
-             *********2.通过id删除管理员信息
-             *********3.获取修改管理员id
-             *********4.修改管理员
-             *********5.添加管理员
-             *********6.管理员模糊查询
+     *********1.获取所有管理员信息
+     *********2.通过id删除管理员信息
+     *********3.获取修改管理员id
+     *********4.修改管理员
+     *********5.添加管理员
+     *********6.管理员模糊查询
      */
 
     /*
@@ -462,5 +473,18 @@ public class templatesTest {
         model.addAttribute("adminList", list);
         return "admin-admin-control";
     }
+
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/tangchenyipinye/selectproducts")
+    public String tangchenyipinyeselectproducts(@RequestParam("productname") String productname,HttpServletRequest request){
+
+//       List<Product> productsList = productService.selectBycategory("生熟套装");
+        List productsList = productService.selectProductByName(productname);
+        request.setAttribute("productsList",productsList);
+        String username= usersService.getNameBySecurity();
+        request.setAttribute("Username",username);
+        return "tangchenyipinye";
+    }
+
 }
 

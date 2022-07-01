@@ -1,13 +1,7 @@
 package com.tangchenyipinye.project.controller;
 
-import com.tangchenyipinye.project.pojo.Admin;
-import com.tangchenyipinye.project.pojo.Product;
-import com.tangchenyipinye.project.pojo.Users;
-import com.tangchenyipinye.project.pojo.shopcar;
-import com.tangchenyipinye.project.service.AdminService;
-import com.tangchenyipinye.project.service.ProductService;
-import com.tangchenyipinye.project.service.ShopCarService;
-import com.tangchenyipinye.project.service.UsersService;
+import com.tangchenyipinye.project.pojo.*;
+import com.tangchenyipinye.project.service.*;
 import com.tangchenyipinye.project.until.MD5until;
 import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
@@ -36,6 +30,8 @@ public class test {
     AdminService adminService;
     @Autowired
     ShopCarService shopCarService;
+    @Autowired
+    OrderInfoService orderInfoService;
 
     @Secured({"ROLE_admins"})
     @GetMapping("/hello")
@@ -96,6 +92,24 @@ public class test {
         request.setAttribute("usershopcars",usershopcars);
         return R.ok().data("usershopcars",usershopcars);
     }
+    //清空个人购物车
+    @Secured({"ROLE_admins"})
+    @GetMapping("/shopcar/deleteproductfromusershopcar")
+    public R deleteproductfromusershopcar(){
+        int i=shopCarService.deleteproductfromusershopcar();
+        if(i==0){
+            return R.ok().data("msg","购物车是空的了！");
+        }
+        return R.ok().data("msg","购物车已被清空！");
+    }
+    //查询个人订单
+    @Secured({"ROLE_admins"})
+    @GetMapping("/shopcar/selectdingdanByusername")
+    public R selectdingdanByusername(){
+        String username=usersService.getNameBySecurity();
+        List<OrderInfo> orderInfos= orderInfoService.selectByusername(username);
+        return R.ok().data("userorderInfos",orderInfos);
+    }
 
     //    增加管理员接口,管理员用户名唯一
     @Secured({"ROLE_admins"})
@@ -146,11 +160,11 @@ public class test {
 //    @Secured({"ROLE_admins"})
     @RequestMapping(value = "/user/register")
     public R register2(@RequestParam("username") String username,
-                            @RequestParam("password") String password,
-                            @RequestParam String password1,
-                            @RequestParam("nickname") String nickname,
-                            @RequestParam("mobile") String mobile,
-                            @RequestParam("email") String email) {
+                       @RequestParam("password") String password,
+                       @RequestParam String password1,
+                       @RequestParam("nickname") String nickname,
+                       @RequestParam("mobile") String mobile,
+                       @RequestParam("email") String email) {
         //        mybatis-plus下的通过map方式进行条件查询
         //        判断用户名是否已存在
         List list = usersService.selectByMap(username);
