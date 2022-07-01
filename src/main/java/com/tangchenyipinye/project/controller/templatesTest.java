@@ -1,37 +1,20 @@
 package com.tangchenyipinye.project.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import com.tangchenyipinye.project.pojo.Admin;
-import com.tangchenyipinye.project.pojo.Data_status;
-import com.tangchenyipinye.project.pojo.Product;
-import com.tangchenyipinye.project.pojo.Users;
-import com.tangchenyipinye.project.service.AdminService;
-import com.tangchenyipinye.project.service.DataService;
-import com.tangchenyipinye.project.service.ProductService;
-import com.tangchenyipinye.project.service.UsersService;
+import com.tangchenyipinye.project.pojo.*;
+import com.tangchenyipinye.project.service.*;
 import com.tangchenyipinye.project.until.MD5until;
-import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.crypto.Data;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Collection;
-import javax.xml.crypto.Data;
 import java.util.List;
-import java.util.Locale;
 
 @Api(tags = "templates测试")
 @Controller
@@ -45,6 +28,8 @@ public class templatesTest {
     UsersService usersService;
     @Autowired
     DataService dataService;
+    @Autowired
+    OrderService orderService;
     @Secured({"ROLE_admins"})
     @RequestMapping("/logout")
     public String logout() {
@@ -104,7 +89,23 @@ public class templatesTest {
 
     @Secured({"ROLE_admins"})
     @RequestMapping("/adminorders")
-    public String adminorders() {
+    public String adminorders(Model model) {
+        List<Order> ordersList = orderService.list();
+        model.addAttribute("ordersList",ordersList);
+        return "admin-orders-control";
+    }
+    //删除订单信息
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/deleteOrderById")
+    public String deleteOrderById(int id) {
+        orderService.deleteOrderById(id);
+        return "redirect:/temapi/adminorders";
+    }
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/selectOrderByName",method = RequestMethod.POST)
+    public String selectOrderByName(Model model,@RequestParam("title") String title){
+        List list = orderService.selectOrderByName(title);
+        model.addAttribute("ordersList", list);
         return "admin-orders-control";
     }
 
@@ -255,6 +256,7 @@ public class templatesTest {
         productService.deleteProductById(id);
         return "redirect:../temapi/allProducts";
     }
+
 
     /*
         点击修改商品后，获取到商品id
