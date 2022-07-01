@@ -60,20 +60,20 @@ public class templatesTest {
             return "admin-db-control";
     }
 
-//    //    进入商品添加页面
-//    @Secured({"ROLE_admins"})
-//    @RequestMapping("addProduct")
-//    public String addProduct() {
-//        return "addProduct";
-//    }
+    //    进入商品添加页面
+    @Secured({"ROLE_admins"})
+    @RequestMapping("addProduct")
+    public String addProduct() {
+        return "addProduct";
+    }
 
 
-//    //回到首页
-//    @Secured({"ROLE_admins"})
-//    @RequestMapping("/adminpage")
-//    public String adminpage() {
-//        return "admin-homepage";
-//    }
+    //回到首页
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminpage")
+    public String adminpage() {
+        return "admin-homepage";
+    }
 
     @Secured({"ROLE_admins"})
     @RequestMapping("/admincategory")
@@ -473,5 +473,18 @@ public class templatesTest {
         model.addAttribute("adminList", list);
         return "admin-admin-control";
     }
+
+   @Secured("ROLE_admins")
+   @RequestMapping(value = "/tangchenyipinye/selectproducts")
+    public String tangchenyipinyeselectproducts(@RequestParam("productname") String productname,HttpServletRequest request){
+
+//       List<Product> productsList = productService.selectBycategory("生熟套装");
+       List productsList = productService.selectProductByName(productname);
+       request.setAttribute("productsList",productsList);
+       String username= usersService.getNameBySecurity();
+       request.setAttribute("Username",username);
+        return "tangchenyipinye";
+   }
+
 }
 
