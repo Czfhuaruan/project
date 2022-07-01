@@ -56,7 +56,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     /*
-        通过id寻找用户商品
+        通过id寻找用户信息
     */
     @Override
     public Users selectUserById(Integer id) {

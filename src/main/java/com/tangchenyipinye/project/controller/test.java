@@ -177,11 +177,11 @@ public class test {
         System.out.println(username + "----" + password);
 //        解密
         String s = MD5until.string2MD5(password);
-        Admin admin = adminService.getUserByAdminname(username);
-        if(!s.equals(admin.getAdmin_password())){
-            return R.error();
+        int i = adminService.getUserByAdminname(username, s);
+        if(i==0){
+            return R.error().data("msg",i);
         }else{
-            return R.ok();
+            return R.ok().data("msg",i);
         }
     }
 

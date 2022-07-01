@@ -23,7 +23,7 @@ public interface UsersService extends IService<Users> {
     public int insert(Users users);
 
     /*
-        通过用户查找用户
+        通过用户查询用户
     */
     public List selectByMap(String username);
 
@@ -33,7 +33,7 @@ public interface UsersService extends IService<Users> {
     public String getNameBySecurity();
 
     /*
-        通过id寻找用户商品
+        通过id查询用户信息
     */
     public Users selectUserById(Integer id);
 
@@ -48,7 +48,7 @@ public interface UsersService extends IService<Users> {
     public int addUser(Users users);
 
     /*
-        根据id查找用户信息
+        根据id删除用户信息
     */
     public void deleteUserById(int id);
 
