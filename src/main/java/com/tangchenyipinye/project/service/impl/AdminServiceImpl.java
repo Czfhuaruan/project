@@ -41,6 +41,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public int getUserByAdminname(String admin_name,String admin_password) {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("admin_name",admin_name);
+        queryWrapper.eq("admin_password",admin_password);
         Integer i = adminMapper.selectCount(queryWrapper);
         return i;
     }
