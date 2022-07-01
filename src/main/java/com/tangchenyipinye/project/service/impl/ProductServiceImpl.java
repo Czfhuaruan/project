@@ -15,12 +15,18 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Autowired
     ProductMapper productMapper;
 
+    /*
+        查询所有商品
+    */
     @Override
     public int addProduct(Product product) {
         int i = productMapper.insert(product);
         return i;
     }
 
+    /*
+        通过分类查商品
+    */
     @Override
     public List<Product> selectBycategory(String name) {
         List<Product> products=productMapper.selectBycategory(name);
@@ -28,12 +34,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     /*
-    查询所有商品
-    */
-
-
-    /*
-    根据id查找商品信息
+        根据id查找删除商品信息
     */
     @Override
     public void deleteProductById(int id) {
@@ -41,7 +42,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     /*
-    更新商品信息
+        更新商品信息
     */
     @Override
     public void updateProduct(Product product) {
@@ -49,7 +50,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     /*
-    根据id查找商品信息
+        根据id查找商品信息
     */
     @Override
     public Product selectProductById(int id) {
@@ -58,7 +59,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     /*
-    商品模糊查询功能接口
+        商品模糊查询功能接口
     */
     @Override
     public List selectProductByName(String title) {

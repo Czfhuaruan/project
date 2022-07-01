@@ -31,7 +31,7 @@
             </a>
         </li>
         <li>
-            <a href="http://localhost:8888/temapi/adminuser">
+            <a href="http://localhost:8888/temapi/allUsers">
                 <i class="fa fa-users" aria-hidden="true"></i>
                 <span>用户管理</span>
             </a>
@@ -61,18 +61,54 @@
     </li>
 
     </ul>
-
     <div class="main ">
         <div style="position: absolute;width: 98%;height:150px;top:0px; ">
-            <h1>context</h1>
+            <form action="/temapi/selectOrderByName" method="post">
+
+                <input type="text" name="title" style="position: absolute;border-radius: 3px;margin:100px 800px;width: 250px;height: 40px" placeholder="请输入搜索的订单">
+                <input type="submit" class="GN" style="position: absolute;margin:98px 1060px;height:45px; border-radius: 5px" value="搜索">
+            </form>
+
+            <a href="http://localhost:8888/temapi/adminorders">
+                <button class="GN"  style="margin-top: 100px;width: 100px;margin-left: 170px;border-radius: 5px" >刷新本页面</button>
+            </a>
         </div>
         <div class="table-container body"style="overflow: auto; position: absolute; width: 100%;height: 550px;top:150px;" >
-
+            <table class="tftable" style="height: auto ;width: 98%">
+                <tr id="front">
+                    <th >订单Id</th>
+                    <th >商品名称</th>
+                    <th>订单号</th>
+                    <th>创建时间</th>
+                    <th>总价</th>
+                    <th>支付方式</th>
+                    <th >用户名</th>
+                    <th>订单状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="i:${ordersList}">
+                    <td style="height: 30px" th:text="${i.id}" ></td>
+                    <td style="height: 30px" th:text="${i.title}" ></td>
+                    <td style="height: 30px" th:text="${i.orderNo}"></td>
+                    <td style="height: 30px" th:text="${i.createTime}"></td>
+                    <td style="height: 30px" th:text="${i.totalFee}"></td>
+                    <td style="height: 30px" th:text="${i.paymentType}"></td>
+                    <td style="height: 30px" th:text="${i.username}" ></td>
+                    <td style="height: 30px" th:text="${i.orderStatus}" ></td><!--判断此字符，如果为1，表示为用户-->
+                    <td>
+                        <a  th:href="@{/temapi/deleteOrderById(id=${i.id})}"> <button class="GN" onclick="clik()" style="border-radius: 5px">删除</button></a>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
 </body>
-<script type="text/javascript">
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js ">
+    function clik(){
+        alert("删除成功！")
+    }
 </script>
+
+
 </html>

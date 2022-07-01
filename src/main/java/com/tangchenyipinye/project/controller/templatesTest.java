@@ -1,26 +1,19 @@
 package com.tangchenyipinye.project.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import com.tangchenyipinye.project.pojo.Admin;
-import com.tangchenyipinye.project.pojo.Data_status;
-import com.tangchenyipinye.project.pojo.Product;
-import com.tangchenyipinye.project.pojo.Users;
-import com.tangchenyipinye.project.service.AdminService;
-import com.tangchenyipinye.project.service.DataService;
-import com.tangchenyipinye.project.service.ProductService;
-import com.tangchenyipinye.project.service.UsersService;
+import com.tangchenyipinye.project.pojo.*;
+import com.tangchenyipinye.project.service.*;
 import com.tangchenyipinye.project.until.MD5until;
-import com.tangchenyipinye.project.until.R;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.crypto.Data;
 import java.util.List;
 
 @Api(tags = "templates测试")
@@ -35,28 +28,28 @@ public class templatesTest {
     UsersService usersService;
     @Autowired
     DataService dataService;
+    @Autowired
+    OrderService orderService;
     @Secured({"ROLE_admins"})
     @RequestMapping("/logout")
     public String logout() {
         return "success";
     }
 
-    //    管理员登录接口
-    @Secured({"ROLE_admins"})
-    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
-    public String adminRegister(@RequestParam("username") String username,
-                                @RequestParam("password") String password) {
-        System.out.println(username + "----" + password);
-        String s = MD5until.string2MD5(password);
-        Admin admin = adminService.getUserByNameAndPass(username, password);
-//        解密
-
-        if (!s.equals(admin.getAdmin_password())) {
-
-            return "redirect:../admin-login";
-        }
-        return "redirect:../allProducts";
-    }
+//    //    管理员登录接口
+//    @Secured({"ROLE_admins"})
+//    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+//    public String adminRegister(@RequestParam("username") String username,
+//                                @RequestParam("password") String password) {
+//        System.out.println(username + "----" + password);
+//        Admin admin = adminService.getUserByNameAndPass(username, password);
+////        解密
+//        String s = MD5until.string2MD5(password);
+//        if (!s.equals(admin.getAdmin_password())) {
+//            return "success";
+//        }
+//        return "redirect:../allProducts";
+//    }
 
     @Secured({"ROLE_admins"})
     @RequestMapping("/admindb")
@@ -67,21 +60,47 @@ public class templatesTest {
             return "admin-db-control";
     }
 
+//    //    进入商品添加页面
+//    @Secured({"ROLE_admins"})
+//    @RequestMapping("addProduct")
+//    public String addProduct() {
+//        return "addProduct";
+//    }
+
+
+//    //回到首页
+//    @Secured({"ROLE_admins"})
+//    @RequestMapping("/adminpage")
+//    public String adminpage() {
+//        return "admin-homepage";
+//    }
+
     @Secured({"ROLE_admins"})
     @RequestMapping("/admincategory")
     public String admincategory() {
         return "admin-category-control";
     }
 
-    @Secured({"ROLE_admins"})
-    @RequestMapping("/adminadmin")
-    public String admin() {
-        return "admin-admin-control";
-    }
 
     @Secured({"ROLE_admins"})
     @RequestMapping("/adminorders")
-    public String adminorders() {
+    public String adminorders(Model model) {
+        List<Order> ordersList = orderService.list();
+        model.addAttribute("ordersList",ordersList);
+        return "admin-orders-control";
+    }
+    //删除订单信息
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/deleteOrderById")
+    public String deleteOrderById(int id) {
+        orderService.deleteOrderById(id);
+        return "redirect:/temapi/adminorders";
+    }
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/selectOrderByName",method = RequestMethod.POST)
+    public String selectOrderByName(Model model,@RequestParam("title") String title){
+        List list = orderService.selectOrderByName(title);
+        model.addAttribute("ordersList", list);
         return "admin-orders-control";
     }
 
@@ -97,19 +116,33 @@ public class templatesTest {
         return "admin-user-control";
     }
 
-//    进入商品添加页面
+
+
+    //    管理员登录接口
     @Secured({"ROLE_admins"})
-    @RequestMapping("addProduct")
-    public String addProduct() {
-        return "addProduct";
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+    public String adminLogin(@RequestParam("username") String username,
+                             @RequestParam("password") String password) {
+        System.out.println(username + "----" + password);
+//        解密
+        String s = MD5until.string2MD5(password);
+        int i = adminService.getUserByAdminname(username, s);
+        if(i==0){
+            return "redirect:../../admin-login.html";
+        }else{
+            return "redirect:../allProducts";
+        }
     }
 
-    //回到首页
-    @Secured({"ROLE_admins"})
-    @RequestMapping("/adminpage")
-    public String adminpage() {
-        return "admin-homepage";
-    }
+    /*
+     *********tangchenyipinye首页模块*********
+
+     *********1.将商品信息发送到首页
+     *********2.
+     *********3.
+     *********4.
+    */
+
     /*
     将商品信息发送到首页
     */
@@ -153,6 +186,16 @@ public class templatesTest {
         return "tangchenyipinye";
     }
 
+    /*
+     *********商品信息管理模块*********
+
+     *********1.获取所有商品信息
+     *********2.通过id删除商品信息
+     *********3.获取修改商品id
+     *********4.修改商品
+     *********5.添加商品
+     *********6.商品模糊查询
+     */
     /*
         获取商品信息发送到商品管理页面
         跳转到“商品管理页面”；
@@ -229,6 +272,206 @@ public class templatesTest {
         model.addAttribute("productsList", list);
         return "admin-goods-control";
     }
+    /*
+                 *********用户信息管理模块*********
 
+                 *********1.获取所有用户信息
+                 *********2.通过id删除用户信息
+                 *********3.获取修改用户id
+                 *********4.修改用户
+                 *********5.添加用户
+                 *********6.用户模糊查询
+     */
+
+    /*
+        获取用户信息发送到用户管理页面
+        跳转到“用户管理页面”；
+    */
+    @Secured({"ROLE_admins"})
+    @GetMapping("/allUsers")
+    public String allUsers(Model model) {
+        List<Users> usersList = usersService.list();
+        model.addAttribute("usersList", usersList);
+        return "admin-user-control";
+    }
+
+    /*
+        点击修改用户后，获取到用户id
+        跳转到用户修改页面修改该用户信息
+        用户修改页面：userUpdate.html
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/userToUpdate")
+    public String toUserUpdate(Model model, int id) {
+        Users users = usersService.selectUserById(id);
+        model.addAttribute("users", users);
+        return "userUpdate";
+    }
+
+    /*
+        取到用户id后，进入修改页面
+        修改此id的用户
+        修改成功后回到商品管理页面
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/userUpdate")
+    public String updateUser(Users users) {
+        usersService.updateUser(users);
+        return "redirect:/temapi/allUsers";
+    }
+
+    /*
+        进入商品添加页面
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("toAddUser")
+    public String toUser() {
+        return "addUser";
+    }
+
+    /*
+        点击商品添加，进入商品添加页面，进行商品添加
+        访问页面路径：http://localhost:8888/temapi/addProduct
+        成功后重定向：http://localhost:8888/temapi/allProducts
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/admin/addUser",method = RequestMethod.POST)
+    public String addUser(@RequestParam("username") String username,
+                          @RequestParam("nickname") String nickname,
+                          @RequestParam("mobile") String mobile,
+                          @RequestParam("address") String address,
+                          @RequestParam("email") String email) {
+        Users users = new Users();
+        users.setUsername(username);
+        users.setNickname(nickname);
+        users.setMobile(mobile);
+        users.setAddress(address);
+        users.setEmail(email);
+        int i = usersService.addUser(users);
+        if(i!=1){
+            //添加商品失败 进入错误页面
+        }
+        return "redirect:/temapi/allUsers";
+    }
+
+    /*
+        通过id删除用户
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/deleteUserById")
+    public String deleteUserById(int id) {
+        usersService.deleteUserById(id);
+        return "redirect:/temapi/allUsers";
+    }
+
+    /*
+        通过用户名称模糊查询用户信息
+        将找到的结果返回到所有用户页面
+        重定向：
+    */
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/selectUserByName",method = RequestMethod.POST)
+    public String selectUserByName(Model model,@RequestParam("username") String username){
+        List list = usersService.selectUserByName(username);
+        model.addAttribute("usersList", list);
+        return "admin-user-control";
+    }
+
+    /*
+             *********管理员信息管理模块*********
+
+             *********1.获取所有管理员信息
+             *********2.通过id删除管理员信息
+             *********3.获取修改管理员id
+             *********4.修改管理员
+             *********5.添加管理员
+             *********6.管理员模糊查询
+     */
+
+    /*
+        1.获取所有管理员信息
+        并发布到admin_admin_control
+    */
+    @Secured("ROLE_admins")
+    @GetMapping(value = "/adminadmin")
+    public String allAdmin(Model model){
+        List<Admin> list = adminService.list();
+        System.out.println(list);
+        model.addAttribute("adminList",list);
+        return "admin-admin-control";
+    }
+
+    /*
+        3.获取修改管理员id
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminToUpdate")
+    public String toAdminUpdate(Model model, int id) {
+        Admin admin = adminService.selectAdminById(id);
+        model.addAttribute("admin", admin);
+        return "adminUpdate";
+    }
+
+    /*
+        4.修改管理员
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/adminUpdate")
+    public String updateAdmin(Admin admin) {
+        System.out.println(admin);
+        String s = admin.getAdminPassword();
+        String s1 = MD5until.string2MD5(s);
+        admin.setAdminPassword(s1);
+        adminService.updateAdmin(admin);
+        return "redirect:/temapi/adminadmin";
+    }
+
+    /*
+        进入管理员添加页面
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("toAddAdmin")
+    public String toAddAdmin() {
+        return "addAdmin";
+    }
+
+    /*
+        5.添加管理员
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping(value = "/admin/addAdmin",method = RequestMethod.POST)
+    public String addUser(@RequestParam("adminName") String adminName,
+                          @RequestParam("nickname") String nickname,
+                          @RequestParam("password") String password) {
+        System.out.println(password);
+        String s = MD5until.string2MD5(password);
+        Admin admin = new Admin(adminName,nickname,s,"http://localhost:8888/ref/img/a.jpg");
+        int i = adminService.addAdmin(admin);
+        if(i!=1){
+            //添加商品失败 进入错误页面
+        }
+        return "redirect:/temapi/adminadmin";
+    }
+
+    /*
+        2.通过id删除管理员信息
+    */
+    @Secured({"ROLE_admins"})
+    @RequestMapping("/deleteAdminById")
+    public String deleteAdminById(int id) {
+        adminService.deleteAdminById(id);
+        return "redirect:/temapi/adminadmin";
+    }
+
+    /*
+        6.管理员模糊查询
+    */
+    @Secured("ROLE_admins")
+    @RequestMapping(value = "/selectAdminByName",method = RequestMethod.POST)
+    public String selectAdminByName(Model model,@RequestParam("adminName") String username){
+        List list = adminService.selectAdminByName(username);
+        model.addAttribute("adminList", list);
+        return "admin-admin-control";
+    }
 }
 
