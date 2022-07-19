@@ -3,14 +3,15 @@
 #### 介绍
 电商系统----买茶------项目实训
 
+####项目描述：
+采用全栈式开发的方式实现了一个在线茶叶销售网站，用户可以在该平台实现在线茶叶销售。管理员可以进行商 品的管理，用户的管理，以及商品图片的上传,库存数据并发处理。 
+####采用技术： 
+SpringBoot、MyBatis-Plus、MySQL、thymeleaf、bootstarp、ajax 项目收获：在学习做到团队合作精神，从0到1的开发以及对并发情况下的数据获取和更新的应用。 
+####项目亮点:
+          1. 使用git分布式编程开发。 
+          2. 实现支付宝扫码支付。
+          3. 库存并发处理。
 
 
 
-#### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
